@@ -25,3 +25,10 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:'+ANDROID_SUPPORT_VERSION
 }
+
+if(project.hasProperty("flutter.sdk")){
+    String path = project.properties.get("flutter.sdk")
+    dependencies {
+        implementation files(path+"/bin/cache/artifacts/engine/android-arm/flutter.jar")
+    }
+}
