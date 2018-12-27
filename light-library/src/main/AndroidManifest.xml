@@ -1,2 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="online.heyworld.android.light.library" />
+    package="online.heyworld.android.light.library" >
+    <application
+        android:name=".app.LibraryApplication">
+
+    </application>
+</manifest>

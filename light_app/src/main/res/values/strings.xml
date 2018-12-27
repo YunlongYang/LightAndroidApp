@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">light_app</string>
+    <string name="app_name">LightApp</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="title_activity_main">MainActivity</string>
 </resources>
