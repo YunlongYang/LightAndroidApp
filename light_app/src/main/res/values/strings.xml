@@ -4,4 +4,19 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_scrolling">ScrollingActivity</string>
+    <string name="large_text"></string>
+    <string name="action_settings">Settings</string>
+    <string name="start_plugin">Start with the plug-in principle</string>
+    <string name="resources_intro_title">About @Resources</string>
+    <string name="resources_intro">Class for accessing an application&#x27;s resources. This sits on top of the asset manager of the application (accessible through getAssets()) and provides a high-level API for getting typed data from the assets.
+
+The Android resource system keeps track of all non-code assets associated with an application. You can use this class to access your application&#x27;s resources. You can generally acquire the Resources instance associated with your application with getResources().
+
+The Android SDK tools compile your application&#x27;s resources into the application binary at build time. To use a resource, you must install it correctly in the source tree (inside your project&#x27;s res/ directory) and build your application. As part of the build process, the SDK tools generate symbols for each resource, which you can use in your application code to access the resources.
+
+Using application resources makes it easy to update various characteristics of your application without modifying code, and—by providing sets of alternative resources—enables you to optimize your application for a variety of device configurations (such as for different languages and screen sizes). This is an important aspect of developing Android applications that are compatible on different types of devices.</string>
+    <string name="title_item_list">Items</string>
+    <string name="title_item_detail">Item Detail</string>
+    <string name="with_flutter">Compare Flutter</string>
 </resources>

@@ -1,7 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="online.heyworld.android.light.library" >
-    <application
-        android:name=".app.LibraryApplication">
+    package="online.heyworld.android.light.library">
 
+    <application android:name=".app.LibraryApplication">
+        <activity
+            android:name=".app.activity.ReferenceActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+
+        <activity
+            android:name=".app.activity.ReferenceWebActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
     </application>
+
 </manifest>

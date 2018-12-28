@@ -2,6 +2,7 @@ package online.heyworld.android.light.library.util;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.List;
+
+import online.heyworld.android.light.library.R;
 
 /**
  * Created by yunlong.yang on 2018/12/27.
@@ -19,6 +22,8 @@ public class RecyclerViewUtil {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         BaseAdapter baseAdapter = new BaseAdapter(dataList);
         recyclerView.setAdapter(baseAdapter);
+        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(),
+                DividerItemDecoration.VERTICAL));
         return baseAdapter;
     }
 
@@ -49,7 +54,7 @@ public class RecyclerViewUtil {
     public static class BaseViewHolder extends RecyclerView.ViewHolder{
 
         public static BaseViewHolder newInstance(Context context) {
-            TextView textView = new TextView(context);
+            TextView textView = (TextView) View.inflate(context, R.layout.recycler_item,null);
             BaseViewHolder fragment = new BaseViewHolder(textView);
             return fragment;
         }

@@ -1,0 +1,1 @@
+apply from:rootProject.file("gradle_script/common_library_build.gradle").absolutePath
