@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 /**
  * Created by admin on 2018/12/27.
@@ -16,6 +17,10 @@ public class BaseCompatActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mHandler = new Handler();
+    }
+
+    protected void showToast(String text,int duration){
+        Toast.makeText(this,text,duration).show();
     }
 
     protected boolean post(Runnable r) {

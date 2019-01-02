@@ -1,1 +1,1 @@
-include ':light-library', ':light_app', ':light-flutter-library', ':light-plugin-library'
+include ':light-library', ':light_app', ':light-flutter-library', ':light-plugin-library', ':light_plugin_app', ':light-plugin-ui-library'

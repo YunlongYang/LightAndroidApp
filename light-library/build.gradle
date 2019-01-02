@@ -6,6 +6,7 @@ dependencies {
     api 'com.github.yunlongyang:lightandroid:v1.0.2'
     api 'com.airbnb.android:lottie:1.0.1'
     api 'com.zzhoujay.richtext:richtext:3.0.7'
+    api project(":light-plugin-ui-library")
 
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$LeakCanaryVersion"
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$LeakCanaryVersion"

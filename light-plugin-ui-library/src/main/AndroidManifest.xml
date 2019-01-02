@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="online.heyworld.android.light.plugin.ui.library">
+
+    <application>
+        <activity android:name=".PluginLibraryActivity"></activity>
+    </application>
+
+</manifest>

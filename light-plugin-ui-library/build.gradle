@@ -1,0 +1,8 @@
+apply from: rootProject.file("gradle_script/common_library_build.gradle").absolutePath
+
+
+dependencies {
+    implementation 'com.android.support:design:' + ANDROID_SUPPORT_VERSION
+    implementation project(":light-plugin-library")
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+}

@@ -1,8 +1,11 @@
 package online.heyworld.android.light;
 
+import android.Manifest;
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.RequestBuilder;
 
@@ -10,6 +13,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -22,10 +26,13 @@ import online.heyworld.android.light.library.app.activity.BaseCompatActivity;
 import online.heyworld.android.light.library.app.activity.ReferenceActivity;
 import online.heyworld.android.light.library.app.activity.ReferenceWebActivity;
 import online.heyworld.android.light.library.route.ActivityRoute;
+import online.heyworld.android.light.library.util.LightPermissions;
+import online.heyworld.android.light.plugin.ui.library.PluginLibraryActivity;
 
 public class LaunchActivity extends BaseCompatActivity {
 
     private TextView tipTv;
+    private LightPermissions.PermissionSession session;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,12 +49,38 @@ public class LaunchActivity extends BaseCompatActivity {
         getWelcomeTip();
     }
 
-    private static void initEnv(Activity activity){
+    private void initEnv(Activity activity){
         ActivityRoute.register("/main",MainActivity.class);
         ActivityRoute.register("/learn_context",LearnContextActivity.class);
         ActivityRoute.register("/reference",ReferenceActivity.class);
         ActivityRoute.register("/reference/web",ReferenceWebActivity.class);
         ActivityRoute.register("/plugin",PluginIntroActivity.class);
+        ActivityRoute.register("/plugin/library", PluginLibraryActivity.class);
+
+        String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        session = LightPermissions.setUp(this, Arrays.asList(permissions));
+        session.on(new Runnable() {
+            @Override
+            public void run() {
+                showToast("应用运行需要以下权限",Toast.LENGTH_SHORT);
+            }
+        }, new Runnable() {
+            @Override
+            public void run() {
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        session.doRequest();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        session.onRequestPermissionsResult(requestCode, permissions, grantResults,this);
     }
 
     private void getWelcomeTip(){

@@ -1,1 +1,7 @@
 apply from:rootProject.file("gradle_script/common_library_build.gradle").absolutePath
+
+dependencies {
+    implementation 'com.android.support:design:' + ANDROID_SUPPORT_VERSION
+//    implementation project(":light-flutter-library")
+    implementation 'com.github.yunlongyang:lightandroid:v1.0.2'
+}
