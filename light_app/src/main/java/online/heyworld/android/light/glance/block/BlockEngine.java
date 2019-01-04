@@ -6,6 +6,8 @@ import android.os.HandlerThread;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Random;
+
 import online.heyworld.android.light.glance.block.bean.Block;
 import online.heyworld.android.light.glance.block.model.BlockCreatorGroup;
 
@@ -76,12 +78,18 @@ public class BlockEngine {
         if(activeBlock!=null) {
             if (blockDetector.shouldFraze(activeBlock, blockController.tryMove(activeBlock, staticBlockPoints))) {
                 onBlockFraze(activeBlock);
-                activeBlock = blockCreatorGroup.next().create(0, 0);
-                blockController.setBlock(activeBlock);
+                onNewBlockNeed();
             }
             blockController.moveDown(staticBlockPoints);
             onFrameReady.run();
         }
+    }
+
+    private void onNewBlockNeed(){
+        Random random = new Random();
+        int x= random.nextInt(20-4);
+        activeBlock = blockCreatorGroup.next().create(x, 0);
+        blockController.setBlock(activeBlock);
     }
 
     public Block getActiveBlock() {
