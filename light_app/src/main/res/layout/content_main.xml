@@ -36,4 +36,18 @@
             android:text="@string/with_flutter"
             android:gravity="center"/>
     </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_margin="16dp"
+        android:padding="16dp"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:onClick="playBlock"
+            android:text="playBlock"
+            android:gravity="center"/>
+    </android.support.v7.widget.CardView>
 </LinearLayout>

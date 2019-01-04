@@ -20,6 +20,7 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import online.heyworld.android.light.glance.block.BlockActivity;
 import online.heyworld.android.light.glance.context.LearnContextActivity;
 import online.heyworld.android.light.glance.plugin.PluginIntroActivity;
 import online.heyworld.android.light.library.app.activity.BaseCompatActivity;
@@ -56,6 +57,7 @@ public class LaunchActivity extends BaseCompatActivity {
         ActivityRoute.register("/reference/web",ReferenceWebActivity.class);
         ActivityRoute.register("/plugin",PluginIntroActivity.class);
         ActivityRoute.register("/plugin/library", PluginLibraryActivity.class);
+        ActivityRoute.register("/game/block", BlockActivity.class);
 
         String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
         session = LightPermissions.setUp(this, Arrays.asList(permissions));

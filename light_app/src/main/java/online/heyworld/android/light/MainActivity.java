@@ -34,4 +34,10 @@ public class MainActivity extends AppCompatActivity {
     public void viewFlutterCompare(View view) {
         Toast.makeText(this,"正在写作中...",Toast.LENGTH_SHORT).show();
     }
+
+
+    public void playBlock(View view){
+        ActivityRoute.of(this).go("/game/block");
+
+    }
 }
