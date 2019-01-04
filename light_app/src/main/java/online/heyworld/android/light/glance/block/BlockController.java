@@ -11,19 +11,40 @@ import online.heyworld.android.light.glance.block.bean.Block;
 public class BlockController {
 
     private Block activeBlock;
+    private boolean busy;
 
     public void setBlock(Block activeBlock) {
         this.activeBlock = activeBlock;
+        busy = false;
     }
 
     public void left(){
-        activeBlock.attrMap.put("direct_h","left");
-        notifyChanged();
+        if(!isBusy()) {
+            activeBlock.attrMap.put("direct_h", "left");
+            notifyChanged();
+        }
     }
 
     public void rotate(){
-        activeBlock.attrMap.put("rotate","true");
-        notifyChanged();
+        if(!isBusy()) {
+            activeBlock.attrMap.put("rotate", "true");
+            notifyChanged();
+        }
+    }
+
+    public void right(){
+        if(!isBusy()) {
+            activeBlock.attrMap.put("direct_h", "right");
+            notifyChanged();
+        }
+    }
+
+    public void down(){
+        if(!isBusy()) {
+            activeBlock.attrMap.put("direct_v_quick", "true");
+            busy = true;
+            notifyChanged();
+        }
     }
 
     private void notifyChanged(){
@@ -39,24 +60,27 @@ public class BlockController {
         }
     }
 
+    private boolean isBusy(){
+        return busy;
+    }
+
     private void swap(boolean[][] values,int srcX,int srcY,int destX,int destY){
         boolean src = values[srcX][srcY];
         values[srcX][srcY] = values[destX][destY];
         values[destX][destY] = src;
     }
 
-    public void right(){
-        activeBlock.attrMap.put("direct_h","right");
-        notifyChanged();
-    }
 
-    public void down(){
-
-    }
 
     public void move(boolean[][] bg){
-        activeBlock.attrMap.put("direct_v","none");
-        doMove(bg);
+        if(activeBlock.attrMap.containsKey("direct_v_quick")){
+            moveDown(bg);
+            notifyChanged();
+        }else{
+            activeBlock.attrMap.put("direct_v","none");
+            doMove(bg);
+        }
+
     }
 
     public void moveDown(boolean[][] bg){

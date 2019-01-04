@@ -25,8 +25,8 @@ public class BlockEngine {
     private boolean[][] staticBlockPoints;
     private BlockDetector blockDetector;
     private BlockController blockController;
-    private boolean handleDraw = false;
     private BlockCreatorGroup blockCreatorGroup;
+    private boolean started;
 
     public BlockEngine() {
         blockCreatorGroup = new BlockCreatorGroup(4,4);
@@ -35,6 +35,7 @@ public class BlockEngine {
         blockDetector = new BlockDetector(staticBlockPoints);
         blockController = new BlockController();
         blockController.setBlock(activeBlock);
+        started = false;
 
     }
 
@@ -54,10 +55,26 @@ public class BlockEngine {
                         logger.error("BlockEngine",e);
                     }
                 });
+                mWorkHandler.removeCallbacks(mEngine);
                 mWorkHandler.postDelayed(mEngine,1000);
             }
         };
         handlerThread.start();
+        started = true;
+    }
+
+    public boolean isStarted() {
+        return started;
+    }
+
+    public void pause(){
+        running = false;
+    }
+
+    public void resume(){
+        running = true;
+        mWorkHandler.removeCallbacks(mEngine);
+        mWorkHandler.post(mEngine);
     }
 
     public void stop(){

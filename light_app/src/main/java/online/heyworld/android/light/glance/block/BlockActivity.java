@@ -58,7 +58,17 @@ public class BlockActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        blockEngine.start();
+        if(blockEngine.isStarted()){
+            blockEngine.resume();
+        }else{
+            blockEngine.start();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        blockEngine.pause();
     }
 
     @Override
