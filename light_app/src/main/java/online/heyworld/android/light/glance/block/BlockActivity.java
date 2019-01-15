@@ -30,7 +30,12 @@ public class BlockActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        blockView.drawBlock(blockEngine.getStaticBlockPoints(),blockEngine.getActiveBlock());
+                        int[] fullLineIndexes = blockEngine.getBlockDetector().getFullLineIndexes();
+                        if(fullLineIndexes.length>0){
+                            blockView.drawFullLine(blockEngine.getStaticBlockPoints(),fullLineIndexes);
+                        }else{
+                            blockView.drawBlock(blockEngine.getStaticBlockPoints(),blockEngine.getActiveBlock());
+                        }
                     }
                 });
             }

@@ -25,7 +25,10 @@ public class BlockView extends View {
     static final int BLOCK_WIDTH = 4;
     private Block blockActive;
     private boolean[][] blockStatic;
+    private int[] fullLineIndexes;
+
     private Paint blockPaint;
+    private Paint fullLineBlockPaint;
 
     public BlockView(Context context) {
         super(context);
@@ -51,6 +54,10 @@ public class BlockView extends View {
     private void init(){
         blockPaint = new Paint();
         blockPaint.setColor(Color.LTGRAY);
+        fullLineIndexes = new int[0];
+
+        fullLineBlockPaint = new Paint();
+        fullLineBlockPaint.setColor(Color.WHITE);
     }
 
 
@@ -72,7 +79,13 @@ public class BlockView extends View {
         Rect rect = new Rect();
         for(int r=0;r<blockRowCount;r++) {
             for (int c = 0; c < blockColumnCount; c++) {
-                if (blockStatic[r][c]) {
+                if(fullLineIndexes.length>0  && isInFullLine(r)){
+                    rect.left = r*unitWidth;
+                    rect.top = c*unitHeight;
+                    rect.right = (r+1)*unitWidth;
+                    rect.bottom = (c+1)*unitHeight;
+                    canvas.drawRect(rect,fullLineBlockPaint);
+                }else if (blockStatic[r][c]) {
                     rect.left = r*unitWidth+2;
                     rect.top = c*unitHeight+2;
                     rect.right = (r+1)*unitWidth-2;
@@ -83,11 +96,30 @@ public class BlockView extends View {
         }
     }
 
+    private boolean isInFullLine(int lineIndex){
+        for(int index : fullLineIndexes){
+            if(index == lineIndex){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void drawBlock(boolean[][] bg,Block activeBlock){
        this.blockStatic = bg;
        this.blockActive = activeBlock;
-       invalidate();
+        fullLineIndexes = new int[0];
+        invalidate();
     }
+
+    public void drawFullLine(boolean[][] bg,int[] fullLineIndexes){
+        this.blockStatic = bg;
+        this.blockActive = null;
+        this.fullLineIndexes = fullLineIndexes;
+        invalidate();
+    }
+
+
 
     private void drawBlock(Canvas canvas,Block block,int unitWidth,int unitHeight){
         if(block==null) return;

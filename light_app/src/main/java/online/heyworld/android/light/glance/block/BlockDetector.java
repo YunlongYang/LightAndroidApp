@@ -2,6 +2,9 @@ package online.heyworld.android.light.glance.block;
 
 import android.graphics.Point;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import online.heyworld.android.light.glance.block.bean.Block;
 
 /**
@@ -42,5 +45,28 @@ public class BlockDetector {
         }
 
         return false;
+    }
+
+    public int[] getFullLineIndexes(){
+        List<Integer> indexesList = new ArrayList<>(0);
+        for (int i = 0; i < staticBg.length; i++) {
+            boolean[] line = staticBg[i];
+            boolean full = true;
+            for (boolean lineItem : line) {
+                if(!lineItem){
+                    full = false;
+                    break;
+                }
+            }
+            if(full){
+                indexesList.add(i);
+            }
+        }
+        Integer[] array = indexesList.toArray(new Integer[0]);
+        int[] indexesArray = new int[array.length];
+        for (int i = 0; i <array.length; i++) {
+            indexesArray[i] = array[i].intValue();
+        }
+        return indexesArray;
     }
 }

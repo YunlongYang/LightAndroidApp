@@ -16,10 +16,10 @@ public class LineCreator extends BlockCreator {
     @Override
     public Block create(int x, int y) {
         Block activeBlock = Block.newInstance(w,h,x,y);
-        activeBlock.value[0][0] = true;
-        activeBlock.value[0][1] = true;
-        activeBlock.value[0][2] = true;
-        activeBlock.value[0][3] = true;
+        activeBlock.value[1][0] = true;
+        activeBlock.value[1][1] = true;
+        activeBlock.value[1][2] = true;
+        activeBlock.value[1][3] = true;
         return activeBlock;
     }
 }

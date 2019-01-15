@@ -3,6 +3,7 @@ package online.heyworld.android.light.glance.block.model;
 import java.util.Iterator;
 import java.util.Random;
 
+import online.heyworld.android.light.glance.block.model.impl.ConvexCreator;
 import online.heyworld.android.light.glance.block.model.impl.LadderCreator;
 import online.heyworld.android.light.glance.block.model.impl.LineCreator;
 import online.heyworld.android.light.glance.block.model.impl.RectCreator;
@@ -25,6 +26,7 @@ public class BlockCreatorGroup implements Iterator<BlockCreator>{
                 new LineCreator(w, h),
                 new RectCreator(w,h),
                 new LadderCreator(w, h),
+                new ConvexCreator(w,h)
         };
     }
 

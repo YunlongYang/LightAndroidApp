@@ -16,10 +16,10 @@ public class LadderCreator extends BlockCreator {
     @Override
     public Block create(int x, int y) {
         Block activeBlock = Block.newInstance(w,h,x,y);
-        activeBlock.value[0][0] = true;
-        activeBlock.value[1][0] = true;
         activeBlock.value[1][1] = true;
         activeBlock.value[2][1] = true;
+        activeBlock.value[2][2] = true;
+        activeBlock.value[3][2] = true;
         return activeBlock;
     }
 }

@@ -10,6 +10,7 @@ import java.util.Random;
 
 import online.heyworld.android.light.glance.block.bean.Block;
 import online.heyworld.android.light.glance.block.model.BlockCreatorGroup;
+import online.heyworld.android.light.glance.block.util.BlockUtils;
 
 /**
  * Created by admin on 2019/1/3.
@@ -17,6 +18,7 @@ import online.heyworld.android.light.glance.block.model.BlockCreatorGroup;
 
 public class BlockEngine {
     private static final Logger logger = LoggerFactory.getLogger(BlockEngine.class);
+    private static Thread.UncaughtExceptionHandler defaultUncaughtExceptionHandler;
 
     private Block activeBlock;
     private Handler mWorkHandler;
@@ -49,6 +51,8 @@ public class BlockEngine {
             protected void onLooperPrepared() {
                 super.onLooperPrepared();
                 mWorkHandler = new Handler(getLooper());
+
+                defaultUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
                 setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler() {
                     @Override
                     public void uncaughtException(Thread t, Throwable e) {
@@ -83,6 +87,8 @@ public class BlockEngine {
             @Override
             public void run() {
                 ((HandlerThread)Thread.currentThread()).quit();
+                Thread.setDefaultUncaughtExceptionHandler(defaultUncaughtExceptionHandler);
+                defaultUncaughtExceptionHandler = null;
             }
         });
     }
@@ -100,6 +106,10 @@ public class BlockEngine {
             blockController.moveDown(staticBlockPoints);
             onFrameReady.run();
         }
+    }
+
+    public BlockDetector getBlockDetector() {
+        return blockDetector;
     }
 
     private void onNewBlockNeed(){
@@ -123,7 +133,12 @@ public class BlockEngine {
             if (running){
                 if(engineReq>=10){
                     engineReq =0;
-                    runBlocks();
+                    int[] fullLineIndexes = blockDetector.getFullLineIndexes();
+                    if(fullLineIndexes.length>0){
+                        clearFullLines(fullLineIndexes);
+                    }else{
+                        runBlocks();
+                    }
                 }else{
                     runRefresh();
                 }
@@ -154,4 +169,27 @@ public class BlockEngine {
             }
         }
     }
+
+    private void clearFullLines(int[] fullLineIndexes){
+        boolean[][] staticBlockPointsTemp = new boolean[20][30];
+        copy(staticBlockPoints,staticBlockPointsTemp,fullLineIndexes);
+        copy(staticBlockPointsTemp,staticBlockPoints,new int[0]);
+    }
+
+    private static void copy(boolean[][] from,boolean[][] to,int[] exceptIndexes){
+        int toIndex = 0;
+        int fromIndex = 0;
+        for (int i = from.length; i >=0  ; i--) {
+            if(!BlockUtils.contains(exceptIndexes,i)){
+                boolean[] fromLine = from[i];
+                for (int j = 0; j < fromLine.length; j++) {
+                    to[toIndex][j]= from[fromIndex][j];
+                }
+                toIndex--;
+            }
+            fromIndex--;
+        }
+    }
+
+
 }

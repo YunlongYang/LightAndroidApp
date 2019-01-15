@@ -53,11 +53,21 @@ public class BlockController {
 
     private void rotateBlock(Block block){
         boolean[][] values = block.value;
-        for (int i=0;i<=3;i++){
-            for(int j=0;j<=i;j++){
-                swap(values,i,j,j,i);
+        rotate(values);
+    }
+
+
+    public static void rotate(boolean temp[][]){
+        int len=temp.length;
+        boolean b [][]=new boolean [len][len];
+        for(int i=0;i<len;i++){
+            for(int j=0;j<len;j++){
+                b[j][len-1-i]=temp[i][j];
             }
         }
+        for(int i=0;i<len;i++)
+            for(int j=0;j<len;j++)
+                temp[i][j]=b[i][j];
     }
 
     private boolean isBusy(){
