@@ -33,7 +33,9 @@
             android:label="@string/title_activity_scrolling"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".glance.plugin.PluginIntroActivity" />
-        <activity android:name=".glance.block.BlockActivity"></activity>
+        <activity android:name=".glance.block.BlockActivity" />
+        <activity android:name=".glance.math.order.MathOrderActivity" />
+        <activity android:name=".glance.math.order.MathOrderListActivity"></activity>
     </application>
 
 </manifest>

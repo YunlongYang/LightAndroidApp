@@ -11,6 +11,7 @@ import android.widget.Toast;
 import java.util.HashMap;
 import java.util.Map;
 
+import online.heyworld.android.light.glance.math.order.impl.RadixSort;
 import online.heyworld.android.light.library.route.ActivityRoute;
 
 public class MainActivity extends AppCompatActivity {
@@ -39,5 +40,9 @@ public class MainActivity extends AppCompatActivity {
     public void playBlock(View view){
         ActivityRoute.of(this).go("/game/block");
 
+    }
+
+    public void sortAlgorithm(View view) {
+        ActivityRoute.of(this).go("/sort_list");
     }
 }

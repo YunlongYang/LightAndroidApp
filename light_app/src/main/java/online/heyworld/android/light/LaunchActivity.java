@@ -2,7 +2,9 @@ package online.heyworld.android.light;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -11,6 +13,8 @@ import com.bumptech.glide.RequestBuilder;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -22,6 +26,8 @@ import okhttp3.Request;
 import okhttp3.Response;
 import online.heyworld.android.light.glance.block.BlockActivity;
 import online.heyworld.android.light.glance.context.LearnContextActivity;
+import online.heyworld.android.light.glance.math.order.MathOrderActivity;
+import online.heyworld.android.light.glance.math.order.MathOrderListActivity;
 import online.heyworld.android.light.glance.plugin.PluginIntroActivity;
 import online.heyworld.android.light.library.app.activity.BaseCompatActivity;
 import online.heyworld.android.light.library.app.activity.ReferenceActivity;
@@ -34,6 +40,7 @@ public class LaunchActivity extends BaseCompatActivity {
 
     private TextView tipTv;
     private LightPermissions.PermissionSession session;
+    private static Logger logger = LoggerFactory.getLogger(LaunchActivity.class);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +55,11 @@ public class LaunchActivity extends BaseCompatActivity {
             }
         },3000);
         getWelcomeTip();
+        logger.info("getAndroidId :" + getAndroidId(this));
+    }
+    public static String getAndroidId (Context context) {
+        String ANDROID_ID = Settings.System.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+        return ANDROID_ID;
     }
 
     private void initEnv(Activity activity){
@@ -58,6 +70,8 @@ public class LaunchActivity extends BaseCompatActivity {
         ActivityRoute.register("/plugin",PluginIntroActivity.class);
         ActivityRoute.register("/plugin/library", PluginLibraryActivity.class);
         ActivityRoute.register("/game/block", BlockActivity.class);
+        ActivityRoute.register("/sort", MathOrderActivity.class);
+        ActivityRoute.register("/sort_list", MathOrderListActivity.class);
 
         String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
         session = LightPermissions.setUp(this, Arrays.asList(permissions));
@@ -88,7 +102,8 @@ public class LaunchActivity extends BaseCompatActivity {
     private void getWelcomeTip(){
         OkHttpClient client = new OkHttpClient.Builder().build();
         Request request = new Request.Builder().url("https://heyworld.online/welcome").get().build();
-        client.newCall(request).enqueue(new Callback() {
+        final Call call = client.newCall(request);
+        call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
 
@@ -110,6 +125,12 @@ public class LaunchActivity extends BaseCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+            }
+        });
+        addCancelTask(new Runnable() {
+            @Override
+            public void run() {
+                call.cancel();
             }
         });
     }
