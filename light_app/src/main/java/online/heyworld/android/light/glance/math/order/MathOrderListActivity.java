@@ -2,6 +2,7 @@ package online.heyworld.android.light.glance.math.order;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -38,6 +39,8 @@ public class MathOrderListActivity extends AppCompatActivity {
             protected void drawInfo(View view, ClassUtil.ClassInfo classInfo) {
                 TextView textView = (TextView) view;
                 textView.setText(classInfo.getSimpleName());
+                textView.setGravity(Gravity.CENTER);
+                textView.setPadding(0,6,0,6);
             }
         });
         mOrderLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -46,6 +49,7 @@ public class MathOrderListActivity extends AppCompatActivity {
                 see(classInfoList.get(position));
             }
         });
+        setTitle("排序算法大全");
     }
 
 

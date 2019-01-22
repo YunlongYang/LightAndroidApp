@@ -8,15 +8,15 @@ import android.view.View;
 import com.google.common.math.IntMath;
 import com.google.errorprone.annotations.Var;
 
-import java.lang.reflect.Field;
 import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import online.heyworld.android.light.glance.math.order.ISortAlgorithm;
 import online.heyworld.android.light.glance.math.order.ISortDisplay;
+import online.heyworld.android.light.glance.math.order.util.SortDisplayUtil;
+import online.heyworld.android.light.widget.support.TextDrawer;
 
 /**
  * Created by yunlong.yang on 2019/1/22.
@@ -76,7 +76,7 @@ public class RadixSort implements ISortAlgorithm {
             int workingItem = source[takeSourceIndex];
             int radix = IntMath.pow(10,workingRadix);
             mRadixQueueArray[workingItem/radix%10].add(workingItem);
-            source[takeSourceIndex] = NONE;
+            source[takeSourceIndex] = NONE_VALUE;
             takeSourceIndex++;
         }else{
             if(takeStackIndex<10) {
@@ -119,103 +119,12 @@ public class RadixSort implements ISortAlgorithm {
             paint.setColor(Color.LTGRAY);
             int top = 0;
             TextDrawer textDrawer = new TextDrawer(canvas,width,height,paint);
-            top += textDrawer.drawText("排序参数:\n"+getArgs() ,top ,View.TEXT_ALIGNMENT_TEXT_START);
-            top += textDrawer.drawText("数组:\n"+getSource(),top ,View.TEXT_ALIGNMENT_TEXT_START);
+            top += textDrawer.drawText("排序参数:\n"+SortDisplayUtil.getArgs(RadixSort.this) ,top ,View.TEXT_ALIGNMENT_TEXT_START);
+            top += textDrawer.drawText("数组:\n"+ SortDisplayUtil.getSource(source),top ,View.TEXT_ALIGNMENT_TEXT_START);
 
             for (int i = 0; i < mRadixQueueArray.length; i++) {
                 textDrawer.drawColumn(i,String.format("%4d",i),new ArrayList(mRadixQueueArray[i]));
             }
         }
-
-
-        private String getSource(){
-            StringBuilder stringBuilder = new StringBuilder();
-            for (int i = 0; i < source.length; i++) {
-                if(source[i]== NONE ){
-                    stringBuilder.append("[").append(String.format("%4s","")).append("]");
-                }else{
-                    stringBuilder.append("[").append(String.format("%4d",source[i])).append("]");
-                }
-                if(i%5==4){
-                    stringBuilder.append("\n");
-                }else {
-                    stringBuilder.append(" ");
-                }
-            }
-            return stringBuilder.toString();
-        }
-        private String getArgs(){
-            StringBuilder stringBuilder = new StringBuilder();
-            Field[] fields = RadixSort.class.getDeclaredFields();
-            int count = 0;
-            for(Field field : fields ){
-                if(field.getAnnotation(Var.class)!=null){
-                    field.setAccessible(true);
-                    try {
-                        stringBuilder.append(field.getName()).append(":[").append(field.get(RadixSort.this)).append("] ");
-                        if(count%2==1){
-                            stringBuilder.append("\n");
-                        }
-                        count++;
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-            return stringBuilder.toString();
-        }
     };
-
-    public static class TextDrawer{
-        Canvas canvas;
-        int width;
-        int height;
-        Paint mPaint;
-
-        public TextDrawer(Canvas canvas, int width, int height, Paint mPaint) {
-            this.canvas = canvas;
-            this.width = width;
-            this.height = height;
-            this.mPaint = mPaint;
-        }
-
-        public int drawText(String text,int top,int align){
-           String[] lines = text.split("\n");
-           int topRecord = top;
-           for (String line:lines){
-               topRecord += drawSingleLineText(line,topRecord,0,align);
-           }
-           return topRecord;
-        }
-
-        private void drawColumn(int index,String label, List list){
-            float width = mPaint.measureText("1111");
-            Paint.FontMetricsInt fontMetricsInt = mPaint.getFontMetricsInt();
-            int left = (int) (width*index);
-            int top = height -  (fontMetricsInt.bottom-fontMetricsInt.top);
-            top-=drawSingleLineText(label,top,left,View.TEXT_ALIGNMENT_TEXT_START);
-            for(Object item:list){
-                top-=drawSingleLineText(item.toString(),top, (int) (left+width/2),View.TEXT_ALIGNMENT_TEXT_START);
-            }
-        }
-
-        private int drawSingleLineText(String text,int top,int left,int align){
-            float textWidth = mPaint.measureText(text);
-            Paint.FontMetricsInt fontMetricsInt = mPaint.getFontMetricsInt();
-            float textHeight = fontMetricsInt.bottom-fontMetricsInt.top;
-            float baseLineY = top +  textHeight/ 2 + Math.abs(mPaint.ascent() + mPaint.descent()) / 2;
-            float x = 0;
-            float y = 0;
-            switch (align){
-                case View.TEXT_ALIGNMENT_TEXT_START:
-                    x=left;
-                    break;
-                case View.TEXT_ALIGNMENT_CENTER:
-                    x= (width-textWidth)/2;
-                    break;
-            }
-            canvas.drawText(text,x,baseLineY,mPaint);
-            return (int) (fontMetricsInt.bottom-fontMetricsInt.top);
-        }
-    }
 }
