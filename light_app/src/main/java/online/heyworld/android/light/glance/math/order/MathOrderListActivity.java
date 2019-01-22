@@ -38,9 +38,18 @@ public class MathOrderListActivity extends AppCompatActivity {
             @Override
             protected void drawInfo(View view, ClassUtil.ClassInfo classInfo) {
                 TextView textView = (TextView) view;
-                textView.setText(classInfo.getSimpleName());
+                textView.setText(classInfo.getSimpleName()+"-"+getName(classInfo));
                 textView.setGravity(Gravity.CENTER);
                 textView.setPadding(0,6,0,6);
+            }
+
+            private String getName(ClassUtil.ClassInfo classInfo){
+                try {
+                    ISortAlgorithm sortAlgorithm = (ISortAlgorithm) Class.forName(classInfo.getName()).newInstance();
+                    return sortAlgorithm.name();
+                }catch (Exception e){
+                    return "未知";
+                }
             }
         });
         mOrderLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
