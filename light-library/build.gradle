@@ -7,7 +7,7 @@ dependencies {
     api 'com.airbnb.android:lottie:1.0.1'
     api 'com.zzhoujay.richtext:richtext:3.0.7'
     api project(":light-plugin-ui-library")
-    compile group: 'com.google.guava', name: 'guava', version: '27.0.1-android'
+    api group: 'com.google.guava', name: 'guava', version: '27.0.1-android'
 
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$LeakCanaryVersion"
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$LeakCanaryVersion"

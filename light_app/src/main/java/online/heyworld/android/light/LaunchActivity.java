@@ -26,6 +26,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import online.heyworld.android.light.glance.block.BlockActivity;
 import online.heyworld.android.light.glance.context.LearnContextActivity;
+import online.heyworld.android.light.glance.flutter.FlutterGuide;
 import online.heyworld.android.light.glance.math.order.MathOrderActivity;
 import online.heyworld.android.light.glance.math.order.MathOrderListActivity;
 import online.heyworld.android.light.glance.plugin.PluginIntroActivity;
@@ -46,23 +47,43 @@ public class LaunchActivity extends BaseCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
         tipTv = findViewById(R.id.heyworld_tip);
-        initEnv(this);
-        postDelayed(new Runnable() {
+        initAppEnv(this);
+        init();
+
+    }
+
+    private void init() {
+        String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_PHONE_STATE,Manifest.permission.ACCESS_FINE_LOCATION};
+        session = LightPermissions.setUp(this, Arrays.asList(permissions));
+        session.onDeny(new Runnable() {
             @Override
             public void run() {
-                ActivityRoute.of(LaunchActivity.this).go("/main");
-                ActivityRoute.of(LaunchActivity.this).back();
+                showToast("应用运行需要以下权限",Toast.LENGTH_SHORT);
             }
-        },3000);
-        getWelcomeTip();
-        logger.info("getAndroidId :" + getAndroidId(this));
+        }).onGrant(new Runnable() {
+            @Override
+            public void run() {
+                getWelcomeTip();
+                postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ActivityRoute.of(LaunchActivity.this).go("/main");
+                        ActivityRoute.of(LaunchActivity.this).back();
+                    }
+                },3000);
+            }
+        });
+        if(session.hadAllPermissions()){
+            session.invokeGrant();
+        }
     }
+
     public static String getAndroidId (Context context) {
         String ANDROID_ID = Settings.System.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
         return ANDROID_ID;
     }
 
-    private void initEnv(Activity activity){
+    private void initAppEnv(Activity activity){
         ActivityRoute.register("/main",MainActivity.class);
         ActivityRoute.register("/learn_context",LearnContextActivity.class);
         ActivityRoute.register("/reference",ReferenceActivity.class);
@@ -72,25 +93,18 @@ public class LaunchActivity extends BaseCompatActivity {
         ActivityRoute.register("/game/block", BlockActivity.class);
         ActivityRoute.register("/sort", MathOrderActivity.class);
         ActivityRoute.register("/sort_list", MathOrderListActivity.class);
-
-        String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
-        session = LightPermissions.setUp(this, Arrays.asList(permissions));
-        session.on(new Runnable() {
-            @Override
-            public void run() {
-                showToast("应用运行需要以下权限",Toast.LENGTH_SHORT);
-            }
-        }, new Runnable() {
-            @Override
-            public void run() {
-            }
-        });
+        FlutterGuide flutterGuide = new FlutterGuide();
+        if(flutterGuide.isEnable()){
+            ActivityRoute.register("/flutter", flutterGuide.getLaunchActivity());
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        session.doRequest();
+        if(!session.hadAllPermissions()){
+            session.request();
+        }
     }
 
     @Override

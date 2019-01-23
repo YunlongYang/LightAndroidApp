@@ -1,1 +1,17 @@
-include ':light-library', ':light_app', ':light-flutter-library', ':light-plugin-library', ':light_plugin_app', ':light-plugin-ui-library'
+boolean isSupportFlutter(){
+    Properties properties = new Properties()
+    File propertiesFile = file("local.properties")
+    if (propertiesFile.exists()) {
+        properties.load(new FileInputStream(propertiesFile))
+    }
+    return properties.getProperty("flutter.sdk")!=null
+}
+
+include ':light-library'
+include ':light_app'
+if(isSupportFlutter()){
+    include ':light-flutter-library'
+}
+include ':light-plugin-library'
+include ':light_plugin_app'
+include ':light-plugin-ui-library'

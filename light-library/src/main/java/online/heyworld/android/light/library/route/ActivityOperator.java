@@ -27,11 +27,16 @@ public class ActivityOperator implements Operator {
     @Override
     public void go(String where, Map<String, Object> args) {
         EventService.on("activity_go","where:"+where+" , args:["+args.toString()+"]");
-        Intent intent = new Intent(activity,ActivityRoute.get(where));
-        for(Map.Entry<String,Object> entry:args.entrySet()){
-            intent.putExtra(entry.getKey(),String.valueOf(entry.getValue()));
+        Class targetClass = ActivityRoute.get(where);
+        if(targetClass!=null) {
+            Intent intent = new Intent(activity, targetClass);
+            for (Map.Entry<String, Object> entry : args.entrySet()) {
+                intent.putExtra(entry.getKey(), String.valueOf(entry.getValue()));
+            }
+            activity.startActivity(intent);
+        }else{
+            throw new RuntimeException("ActivityOperator go fail:not found @"+where);
         }
-        activity.startActivity(intent);
     }
 
     @Override

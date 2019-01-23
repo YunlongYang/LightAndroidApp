@@ -5,12 +5,17 @@
 
     <string name="resources_intro_title">关于Resources类</string>
     <string name="resources_intro">
-        &#8195;用来访问应用程序资源的类。它位于应用程序的资源管理器之上(可通过getAssets()访问)，并提供了从资源获取类型化数据的高级API。\n
-        &#8195;Android资源系统跟踪与应用程序关联的所有非代码资源。您可以使用这个类来访问应用程序的资源。通常可以使用getResources()获取与应用程序关联的资源实例。\n
-        &#8195;Android SDK工具在构建时将应用程序的资源编译为应用程序二进制文件。要使用资源，必须在源树(项目的res/目录内)中正确安装资源，并构建应用程序。\n
-        &#8195;作为构建过程的一部分，SDK工具为每个资源生成符号，您可以在应用程序代码中使用这些符号来访问资源。\n
-        &#8195;使用应用程序资源可以方便地在不修改代码的情况下更新应用程序的各种特性，并且通过提供一组可选资源，可以针对各种设备配置(例如不同的语言和屏幕大小)优化应用程序。\n
-        &#8195;这是开发在不同类型设备上兼容的Android应用程序的一个重要方面。\n
+
     </string>
     <string name="with_flutter">对比Flutter</string>
+
+    <string name="title_home">首页</string>
+    <string name="title_dashboard">控制台</string>
+    <string name="title_notifications">通知</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_scrolling">ScrollingActivity</string>
+    <string name="large_text"></string>
+    <string name="action_settings">设置</string>
+    <string name="title_item_list">Items</string>
+    <string name="title_item_detail">Item Detail</string>
 </resources>

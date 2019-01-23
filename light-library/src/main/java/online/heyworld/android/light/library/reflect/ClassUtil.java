@@ -5,6 +5,7 @@ import android.content.Context;
 import com.google.common.base.CharMatcher;
 import com.google.common.reflect.Reflection;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -16,26 +17,36 @@ public class ClassUtil{
 
     public static final List<ClassInfo> getClasses(Context context,String packageName,boolean topOnly){
         List<ClassInfo> classInfoList = new ArrayList<>();
-        try {
-            DexFile dex = new DexFile(context.getPackageCodePath());
-            Enumeration<String> entries = dex.entries();
-            while (entries.hasMoreElements()) {
-                String className = entries.nextElement();
-                if(className.startsWith(packageName)){
-                    ClassInfo classInfo = new ClassInfo(className);
-                    if(topOnly){
-                        if(classInfo.getPackageName().equals(packageName) && (!className.contains("$"))){
-                            classInfoList.add(new ClassInfo(className));
-                        }
-                    }else{
-                        classInfoList.add(new ClassInfo(className));
-                    }
+        File appHome  = new File(context.getPackageCodePath()).getParentFile();
+        File[] appFiles = appHome.listFiles();
+        for(File appFile : appFiles ){
+            if(appFile.getName().endsWith(".apk")){
+                try {
+                    findAndFillClasses(packageName,appFile,topOnly,classInfoList);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
         return classInfoList;
+    }
+
+    private static void findAndFillClasses(String packageName,File file, boolean topOnly,List<ClassInfo> classInfoList)throws Exception{
+        DexFile dex = new DexFile(file.getAbsolutePath());
+        Enumeration<String> entries = dex.entries();
+        while (entries.hasMoreElements()) {
+            String className = entries.nextElement();
+            if(className.startsWith(packageName)){
+                ClassInfo classInfo = new ClassInfo(className);
+                if(topOnly){
+                    if(classInfo.getPackageName().equals(packageName) && (!className.contains("$"))){
+                        classInfoList.add(new ClassInfo(className));
+                    }
+                }else{
+                    classInfoList.add(new ClassInfo(className));
+                }
+            }
+        }
     }
 
     public static class ClassInfo {

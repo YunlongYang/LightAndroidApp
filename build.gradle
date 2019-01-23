@@ -7,7 +7,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.0'
+        classpath 'com.android.tools.build:gradle:3.2.1'
     }
 }
 
@@ -18,7 +18,19 @@ allprojects {
         maven { url 'https://jitpack.io' }
     }
 }
+ext{
+    flutter_on = isSupportFlutter()
+}
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+boolean isSupportFlutter(){
+    Properties properties = new Properties()
+    File propertiesFile = file("local.properties")
+    if (propertiesFile.exists()) {
+        properties.load(new FileInputStream(propertiesFile))
+    }
+    return properties.getProperty("flutter.sdk")!=null
 }

@@ -11,6 +11,7 @@ import android.widget.Toast;
 import java.util.HashMap;
 import java.util.Map;
 
+import online.heyworld.android.light.glance.flutter.FlutterGuide;
 import online.heyworld.android.light.glance.math.order.impl.RadixSort;
 import online.heyworld.android.light.library.route.ActivityRoute;
 
@@ -33,7 +34,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void viewFlutterCompare(View view) {
-        Toast.makeText(this,"正在写作中...",Toast.LENGTH_SHORT).show();
+        if(new FlutterGuide().isEnable()){
+            ActivityRoute.of(this).go("/flutter");
+        }else{
+            Toast.makeText(this,"Flutter未启用，请参考ReadMe文件启用",Toast.LENGTH_SHORT).show();
+        }
     }
 
 
