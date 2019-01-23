@@ -43,7 +43,7 @@ public class TextDrawer {
         }
     }
 
-    private int drawSingleLineText(String text,int top,int left,int align){
+    int drawSingleLineText(String text,int top,int left,int align){
         float textWidth = mPaint.measureText(text);
         Paint.FontMetricsInt fontMetricsInt = mPaint.getFontMetricsInt();
         float textHeight = fontMetricsInt.bottom-fontMetricsInt.top;

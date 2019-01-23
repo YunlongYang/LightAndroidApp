@@ -10,6 +10,7 @@ import com.google.errorprone.annotations.Var;
 import online.heyworld.android.light.glance.math.order.ISortAlgorithm;
 import online.heyworld.android.light.glance.math.order.ISortDisplay;
 import online.heyworld.android.light.glance.math.order.util.SortDisplayUtil;
+import online.heyworld.android.light.widget.support.ArrayDrawer;
 import online.heyworld.android.light.widget.support.TextDrawer;
 
 /**
@@ -50,6 +51,15 @@ public class SelectionSort implements ISortAlgorithm {
     @Override
     public void begin(int[] source) {
         this.source = source;
+
+    }
+
+    private String[] genLables(){
+        String[] labels = new String[source.length];
+        for (int i = 0; i <source.length; i++) {
+            labels[i] = String.valueOf(source[i]);
+        }
+        return labels;
     }
 
     @Override
@@ -101,6 +111,8 @@ public class SelectionSort implements ISortAlgorithm {
             TextDrawer textDrawer = new TextDrawer(canvas, width, height, paint);
             top += textDrawer.drawText("排序参数:\n"+ SortDisplayUtil.getArgs(SelectionSort.this) ,top , View.TEXT_ALIGNMENT_TEXT_START);
             top += textDrawer.drawText("数组:\n"+ SortDisplayUtil.getSource(source),top ,View.TEXT_ALIGNMENT_TEXT_START);
+            ArrayDrawer arrayDrawer = new ArrayDrawer(canvas, width, height, paint,textDrawer);
+            arrayDrawer.drawArray(genLables(),source,workingIndex,minIndex);
         }
     };
 }
