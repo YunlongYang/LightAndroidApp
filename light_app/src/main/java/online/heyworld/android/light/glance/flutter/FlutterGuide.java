@@ -29,7 +29,9 @@ public class FlutterGuide {
     public void init(Context context){
         try {
             InstanceUtil.newClassInstance("io.flutter.support.ApplicationSupport")
-                    .call("init",new Class[]{Context.class},context);
+                    .callChain("init")
+                    .on(Context.class,context)
+                    .done();
         } catch (Exception e) {
             e.printStackTrace();
         }
