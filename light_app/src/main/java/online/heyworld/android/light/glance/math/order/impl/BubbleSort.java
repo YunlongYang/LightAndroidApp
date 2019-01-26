@@ -104,7 +104,7 @@ public class BubbleSort implements ISortAlgorithm {
             top += textDrawer.drawText("数组:\n"+ SortDisplayUtil.getSource(source),top ,View.TEXT_ALIGNMENT_TEXT_START);
             top += textDrawer.drawText("提示: "+ String.valueOf(action==null?"":action),top ,View.TEXT_ALIGNMENT_TEXT_START);
             ArrayDrawer arrayDrawer = new ArrayDrawer(canvas,width,height,paint,textDrawer);
-            arrayDrawer.drawArray(SortDisplayUtil.genLabels(source),source,workingIndex,workingIndex+1);
+            arrayDrawer.drawArray(SortDisplayUtil.genLabels(source),source,workDone?-1:workingIndex,workDone?-1:workingIndex+1);
         }
     };
 }
