@@ -10,6 +10,7 @@ import com.google.errorprone.annotations.Var;
 import online.heyworld.android.light.glance.math.order.ISortAlgorithm;
 import online.heyworld.android.light.glance.math.order.ISortDisplay;
 import online.heyworld.android.light.glance.math.order.util.SortDisplayUtil;
+import online.heyworld.android.light.widget.support.ArrayDrawer;
 import online.heyworld.android.light.widget.support.TextDrawer;
 
 /**
@@ -53,20 +54,14 @@ public class BubbleSort implements ISortAlgorithm {
     @Override
     public boolean move() {
         StringBuilder stringBuilder = new StringBuilder();
-        if(workingIndex<(source.length-1)){
+        if(workingIndex<(source.length-1-cycleIndex)){
             now = source[workingIndex];
             next = source[workingIndex+1];
-            stringBuilder.append("=>now:"+source[workingIndex]).append("\n");
-            stringBuilder.append("=>next:"+source[workingIndex+1]).append("\n");
-            stringBuilder.append("compare:now>next?"+(now > next)).append("\n");
             if(now > next ){
-                stringBuilder.append("yes").append("\n");
-                stringBuilder.append("swap(now,next)").append("\n");
                 source[workingIndex] = source[workingIndex+1];
                 source[workingIndex+1] = now;
                 movedAtCycle = true;
             }else{
-                stringBuilder.append("no,do nothing");
             }
             workingIndex++;
         }else{
@@ -75,9 +70,9 @@ public class BubbleSort implements ISortAlgorithm {
 
             if(cycleIndex>=source.length || (!movedAtCycle)){
                 if((!movedAtCycle) && cycleIndex< (source.length-1)){
-                    stringBuilder.append("sort done.[no move at cycle]");
+                    stringBuilder.append("排序完成.[循环内未移动元素]");
                 }else{
-                    stringBuilder.append("sort done.[cycle execute done]");
+                    stringBuilder.append("排序完成.[遍历完成]");
                 }
                 workDone = true;
             }else{
@@ -107,7 +102,9 @@ public class BubbleSort implements ISortAlgorithm {
             TextDrawer textDrawer = new TextDrawer(canvas, width, height, paint);
             top += textDrawer.drawText("排序参数:\n"+SortDisplayUtil.getArgs(BubbleSort.this) ,top ,View.TEXT_ALIGNMENT_TEXT_START);
             top += textDrawer.drawText("数组:\n"+ SortDisplayUtil.getSource(source),top ,View.TEXT_ALIGNMENT_TEXT_START);
-            top += textDrawer.drawText("动作:\n"+ action,top ,View.TEXT_ALIGNMENT_TEXT_START);
+            top += textDrawer.drawText("提示: "+ String.valueOf(action==null?"":action),top ,View.TEXT_ALIGNMENT_TEXT_START);
+            ArrayDrawer arrayDrawer = new ArrayDrawer(canvas,width,height,paint,textDrawer);
+            arrayDrawer.drawArray(SortDisplayUtil.genLabels(source),source,workingIndex,workingIndex+1);
         }
     };
 }

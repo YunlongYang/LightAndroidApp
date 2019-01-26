@@ -21,6 +21,7 @@ import java.util.Arrays;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -35,6 +36,7 @@ import online.heyworld.android.light.library.app.activity.ReferenceActivity;
 import online.heyworld.android.light.library.app.activity.ReferenceWebActivity;
 import online.heyworld.android.light.library.route.ActivityRoute;
 import online.heyworld.android.light.library.util.LightPermissions;
+import online.heyworld.android.light.library.util.SystemUtil;
 import online.heyworld.android.light.plugin.ui.library.PluginLibraryActivity;
 
 public class LaunchActivity extends BaseCompatActivity {
@@ -114,7 +116,16 @@ public class LaunchActivity extends BaseCompatActivity {
     }
 
     private void getWelcomeTip(){
-        OkHttpClient client = new OkHttpClient.Builder().build();
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+                Request request = chain.request()
+                        .newBuilder()
+                        .addHeader("Accept-Language", SystemUtil.getLanguage(context()))
+                        .build();
+                return chain.proceed(request);
+            }
+        }).build();
         Request request = new Request.Builder().url("https://heyworld.online/welcome").get().build();
         final Call call = client.newCall(request);
         call.enqueue(new Callback() {

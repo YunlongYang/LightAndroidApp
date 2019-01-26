@@ -46,7 +46,7 @@ public class DisplayView extends View {
         mPaint = new Paint();
         mPaint.setColor(Color.WHITE);
         mPaint.setTextSize(42);
-
+        mPaint.setAntiAlias(true);
         resources = getResources();
     }
 

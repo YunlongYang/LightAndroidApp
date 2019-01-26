@@ -63,4 +63,12 @@ public class SortDisplayUtil {
         }
         return String.valueOf(obj);
     }
+
+    public static String[] genLabels(int[] source){
+        String[] labels = new String[source.length];
+        for (int i = 0; i <source.length; i++) {
+            labels[i] = String.valueOf(source[i]);
+        }
+        return labels;
+    }
 }

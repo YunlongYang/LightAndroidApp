@@ -10,10 +10,18 @@ import online.heyworld.android.light.glance.math.order.ISortDisplay;
 import online.heyworld.android.light.widget.support.TextDrawer;
 
 /**
+ * 利用堆这种数据结构所设计的一种排序算法
  * Created by admin on 2019/1/22.
  */
 
 public class HeapSort implements ISortAlgorithm {
+
+    public static class Heap{
+        int[] data;
+
+    }
+
+
     @Override
     public String name() {
         return "堆排序";

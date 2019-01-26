@@ -35,6 +35,7 @@ public class SelectionSort implements ISortAlgorithm {
     private int workingValue;
 
     private int[] source;
+    private boolean cycleDone;
     @Override
     public String name() {
         return "选择排序";
@@ -46,6 +47,7 @@ public class SelectionSort implements ISortAlgorithm {
         minValue = NONE_VALUE;
         cycleIndex = 0;
         workDone = false;
+        cycleDone = false;
     }
 
     @Override
@@ -54,7 +56,7 @@ public class SelectionSort implements ISortAlgorithm {
 
     }
 
-    private String[] genLables(){
+    private String[] genLabels(){
         String[] labels = new String[source.length];
         for (int i = 0; i <source.length; i++) {
             labels[i] = String.valueOf(source[i]);
@@ -89,7 +91,12 @@ public class SelectionSort implements ISortAlgorithm {
             }
             workingIndex++;
         }
+        checkCycleDone();
         return workDone;
+    }
+
+    private void checkCycleDone(){
+        cycleDone = workingIndex == source.length;
     }
 
     @Override
@@ -112,7 +119,10 @@ public class SelectionSort implements ISortAlgorithm {
             top += textDrawer.drawText("排序参数:\n"+ SortDisplayUtil.getArgs(SelectionSort.this) ,top , View.TEXT_ALIGNMENT_TEXT_START);
             top += textDrawer.drawText("数组:\n"+ SortDisplayUtil.getSource(source),top ,View.TEXT_ALIGNMENT_TEXT_START);
             ArrayDrawer arrayDrawer = new ArrayDrawer(canvas, width, height, paint,textDrawer);
-            arrayDrawer.drawArray(genLables(),source,workingIndex,minIndex);
+            arrayDrawer.drawArray(genLabels(),source,workingIndex,minIndex);
+            if((!workDone) && cycleDone){
+                arrayDrawer.drawConnect(source,cycleIndex,minIndex,Color.LTGRAY);
+            }
         }
     };
 }
