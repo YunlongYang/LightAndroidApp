@@ -5,10 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="online.heyworld.android.light.glance.math.order.MathOrderListActivity">
-    <ListView
-        android:id="@+id/content_list_view"
+    <GridView
+        android:id="@+id/content_group_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:numColumns="auto_fit">
 
-    </ListView>
+    </GridView>
 </LinearLayout>

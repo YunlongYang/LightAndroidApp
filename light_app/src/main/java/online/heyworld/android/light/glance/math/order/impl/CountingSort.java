@@ -54,8 +54,13 @@ public class CountingSort implements ISortAlgorithm {
     }
 
     @Override
+    public boolean finished() {
+        return false;
+    }
+
+    @Override
     public int[] result() {
-        return source;
+        return new int[0];
     }
 
     @Override
@@ -70,11 +75,7 @@ public class CountingSort implements ISortAlgorithm {
             paint.setColor(Color.LTGRAY);
             int top = 0;
             TextDrawer textDrawer = new TextDrawer(canvas, width, height, paint);
-            top += textDrawer.drawText("限制条件" ,top , View.TEXT_ALIGNMENT_TEXT_START);
-            top += textDrawer.drawText("1、输入的线性表的元素属于有限偏序集S" ,top , View.TEXT_ALIGNMENT_TEXT_START);
-            top += textDrawer.drawText("1、输入的线性表的元素属于有限偏序集S；" ,top , View.TEXT_ALIGNMENT_TEXT_START);
-            top += textDrawer.drawText("计算过程" ,top , View.TEXT_ALIGNMENT_TEXT_START);
-            top += textDrawer.drawText("对于给定的输入序列中的每一个元素x，确定该序列中值小于x的元素的个数（此处并非比较各元素的大小，而是通过对元素值的计数和计数值的累加来确定）。一旦有了这个信息，就可以将x直接存放到最终的输出序列的正确位置上。" ,top , View.TEXT_ALIGNMENT_TEXT_START);
+            top += textDrawer.drawText(NOT_IMPLEMENT, top, View.TEXT_ALIGNMENT_TEXT_START);
 //            top += textDrawer.drawText("排序参数:\n"+SortDisplayUtil.getArgs(BubbleSort.this) ,top ,View.TEXT_ALIGNMENT_TEXT_START);
 //            top += textDrawer.drawText("数组:\n"+ SortDisplayUtil.getSource(source),top ,View.TEXT_ALIGNMENT_TEXT_START);
 //            top += textDrawer.drawText("动作:\n"+ action,top ,View.TEXT_ALIGNMENT_TEXT_START);

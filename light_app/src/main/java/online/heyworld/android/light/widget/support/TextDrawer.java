@@ -29,7 +29,7 @@ public class TextDrawer {
         for (String line:lines){
             topRecord += drawSingleLineText(line,topRecord,0,align);
         }
-        return topRecord;
+        return topRecord-top;
     }
 
     public void drawColumn(int index,String label, List list){

@@ -67,8 +67,48 @@ public class SortDisplayUtil {
     public static String[] genLabels(int[] source){
         String[] labels = new String[source.length];
         for (int i = 0; i <source.length; i++) {
-            labels[i] = String.valueOf(source[i]);
+            if(source[i] == NONE_VALUE ){
+                labels[i] = " ";
+            }else{
+                labels[i] = String.valueOf(source[i]);
+            }
         }
         return labels;
+    }
+
+    public static boolean contains(int item,int[] checkArray){
+        for (int check: checkArray){
+            if(check == item){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static int[] range(int start,int end){
+        if(end<start || start == NONE_INDEX || end == NONE_INDEX){
+            return new int[0];
+        }
+        int[] result = new int[end-start+1];
+        for (int i = 0; i < result.length; i++) {
+            result[i] = start+i;
+        }
+        return result;
+    }
+
+    public static int[] sub(int[] source,int start,int end){
+        if(end<start || start == NONE_INDEX || end == NONE_INDEX
+                || start>= source.length ){
+            return new int[0];
+        }
+
+        int[] result = new int[end-start+1];
+        for (int i = 0; i < result.length; i++) {
+            if(start+i>=source.length){
+                break;
+            }
+            result[i] = source[start+i];
+        }
+        return result;
     }
 }

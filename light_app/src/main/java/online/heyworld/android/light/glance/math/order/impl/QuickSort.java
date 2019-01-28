@@ -20,6 +20,11 @@ public class QuickSort implements ISortAlgorithm {
     }
 
     @Override
+    public boolean finished() {
+        return false;
+    }
+
+    @Override
     public void prepare() {
 
     }
@@ -51,7 +56,7 @@ public class QuickSort implements ISortAlgorithm {
             paint.setColor(Color.LTGRAY);
             int top = 0;
             TextDrawer textDrawer = new TextDrawer(canvas, width, height, paint);
-            top += textDrawer.drawText("正在编写中" ,top , View.TEXT_ALIGNMENT_TEXT_START);
+            top += textDrawer.drawText(NOT_IMPLEMENT ,top , View.TEXT_ALIGNMENT_TEXT_START);
 //            top += textDrawer.drawText("排序参数:\n"+SortDisplayUtil.getArgs(BubbleSort.this) ,top ,View.TEXT_ALIGNMENT_TEXT_START);
 //            top += textDrawer.drawText("数组:\n"+ SortDisplayUtil.getSource(source),top ,View.TEXT_ALIGNMENT_TEXT_START);
 //            top += textDrawer.drawText("动作:\n"+ action,top ,View.TEXT_ALIGNMENT_TEXT_START);
