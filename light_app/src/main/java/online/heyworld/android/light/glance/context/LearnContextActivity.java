@@ -29,17 +29,14 @@ public class LearnContextActivity extends BaseCompatActivity {
         setContentView(R.layout.activity_learn_context);
         testViewContainer = findViewById(R.id.container);
         logList = new ArrayList<>();
-        LightView lightView = new LightView(DelegateContextUtil.delegateContext(this, new DelegateContextWatch() {
-            @Override
-            public void onCall(Method method, Object[] args, Object result) {
-                ContextCallCounter contextCallCounter = ContextCallCounter.Pool.get(method);
-                contextCallCounter.call();
-                if(!logList.contains(contextCallCounter)){
-                    logList.add(contextCallCounter);
-                }
-                removeCallbacks(refreshLogTask);
-                postDelayed(refreshLogTask,200);
+        LightView lightView = new LightView(DelegateContextUtil.delegateContext(this, (method, args, result) -> {
+            ContextCallCounter contextCallCounter = ContextCallCounter.Pool.get(method);
+            contextCallCounter.call();
+            if(!logList.contains(contextCallCounter)){
+                logList.add(contextCallCounter);
             }
+            removeCallbacks(refreshLogTask);
+            postDelayed(refreshLogTask,200);
         }));
         testViewContainer.addView(lightView);
         recyclerView = findViewById(R.id.recycler_view);

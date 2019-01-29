@@ -8,7 +8,16 @@
         </encoder>
     </appender>
 
-    <root level="DEBUG">
+    <appender name="file" class="ch.qos.logback.core.FileAppender">
+        <file>basic.log</file>
+        <append>true</append>
+        <encoder>
+            <pattern>%date [%thread] %5level %logger{35} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
         <appender-ref ref="logcat" />
+        <appender-ref ref="file" />
     </root>
 </configuration>

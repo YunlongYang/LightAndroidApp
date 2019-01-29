@@ -34,7 +34,9 @@ import online.heyworld.android.light.glance.plugin.PluginIntroActivity;
 import online.heyworld.android.light.library.app.activity.BaseCompatActivity;
 import online.heyworld.android.light.library.app.activity.ReferenceActivity;
 import online.heyworld.android.light.library.app.activity.ReferenceWebActivity;
+import online.heyworld.android.light.library.listener.net.ResponseListener;
 import online.heyworld.android.light.library.route.ActivityRoute;
+import online.heyworld.android.light.library.util.InternetUtil;
 import online.heyworld.android.light.library.util.LightPermissions;
 import online.heyworld.android.light.library.util.SystemUtil;
 import online.heyworld.android.light.plugin.ui.library.PluginLibraryActivity;
@@ -44,6 +46,7 @@ public class LaunchActivity extends BaseCompatActivity {
     private TextView tipTv;
     private LightPermissions.PermissionSession session;
     private static Logger logger = LoggerFactory.getLogger(LaunchActivity.class);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,48 +58,32 @@ public class LaunchActivity extends BaseCompatActivity {
     }
 
     private void init() {
-        String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_PHONE_STATE,Manifest.permission.ACCESS_FINE_LOCATION};
+        String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE, Manifest.permission.ACCESS_FINE_LOCATION};
         session = LightPermissions.setUp(this, Arrays.asList(permissions));
-        session.onDeny(new Runnable() {
-            @Override
-            public void run() {
-                showToast("应用运行需要以下权限",Toast.LENGTH_SHORT);
-            }
-        }).onGrant(new Runnable() {
-            @Override
-            public void run() {
-                getWelcomeTip();
-                postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        ActivityRoute.of(LaunchActivity.this).go("/main");
-                        ActivityRoute.of(LaunchActivity.this).back();
-                    }
-                },3000);
-            }
+        session.onDeny(() -> showToast("应用运行需要以下权限", Toast.LENGTH_SHORT)).onGrant(() -> {
+            getWelcomeTip();
+            postDelayed(() -> {
+                ActivityRoute.of(LaunchActivity.this).go("/main");
+                ActivityRoute.of(LaunchActivity.this).back();
+            }, 3000);
         });
-        if(session.hadAllPermissions()){
+        if (session.hadAllPermissions()) {
             session.invokeGrant();
         }
     }
 
-    public static String getAndroidId (Context context) {
-        String ANDROID_ID = Settings.System.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
-        return ANDROID_ID;
-    }
-
-    private void initAppEnv(Activity activity){
-        ActivityRoute.register("/main",MainActivity.class);
-        ActivityRoute.register("/learn_context",LearnContextActivity.class);
-        ActivityRoute.register("/reference",ReferenceActivity.class);
-        ActivityRoute.register("/reference/web",ReferenceWebActivity.class);
-        ActivityRoute.register("/plugin",PluginIntroActivity.class);
+    private void initAppEnv(Activity activity) {
+        ActivityRoute.register("/main", MainActivity.class);
+        ActivityRoute.register("/learn_context", LearnContextActivity.class);
+        ActivityRoute.register("/reference", ReferenceActivity.class);
+        ActivityRoute.register("/reference/web", ReferenceWebActivity.class);
+        ActivityRoute.register("/plugin", PluginIntroActivity.class);
         ActivityRoute.register("/plugin/library", PluginLibraryActivity.class);
         ActivityRoute.register("/game/block", BlockActivity.class);
         ActivityRoute.register("/sort", MathOrderActivity.class);
         ActivityRoute.register("/sort_list", MathOrderListActivity.class);
         FlutterGuide flutterGuide = new FlutterGuide();
-        if(flutterGuide.isEnable()){
+        if (flutterGuide.isEnable()) {
             ActivityRoute.register("/flutter", flutterGuide.getLaunchActivity());
         }
     }
@@ -104,7 +91,7 @@ public class LaunchActivity extends BaseCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(!session.hadAllPermissions()){
+        if (!session.hadAllPermissions()) {
             session.request();
         }
     }
@@ -112,52 +99,34 @@ public class LaunchActivity extends BaseCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        session.onRequestPermissionsResult(requestCode, permissions, grantResults,this);
+        session.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
-    private void getWelcomeTip(){
-        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
-            @Override
-            public Response intercept(Chain chain) throws IOException {
-                Request request = chain.request()
-                        .newBuilder()
-                        .addHeader("Accept-Language", SystemUtil.getLanguage(context()))
-                        .build();
-                return chain.proceed(request);
-            }
-        }).build();
-        Request request = new Request.Builder().url("https://heyworld.online/welcome").get().build();
-        final Call call = client.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
+    private void getWelcomeTip() {
 
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                try {
-                    JSONObject jsonObject = new JSONObject(response.body().string());
-                    if(jsonObject.getInt("code")==200){
-                        final String data = jsonObject.getString("data");
-                        runOnUiThread(new Runnable() {
+        InternetUtil.FutureController futureController =
+                InternetUtil.get("https://heyworld.online/welcome")
+                        .executeAsyncForeground(new ResponseListener() {
                             @Override
-                            public void run() {
-                                tipTv.setText(data);
+                            public void onResponse(InternetUtil.Response response) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(new String(response.getBody()));
+                                    if (jsonObject.getInt("code") == 200) {
+                                        final String data = jsonObject.getString("data");
+                                        tipTv.setText(data);
+                                    }
+                                } catch (JSONException e) {
+                                    onError(e);
+                                }
+                            }
+
+                            @Override
+                            public void onError(Exception e) {
+
                             }
                         });
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        addCancelTask(new Runnable() {
-            @Override
-            public void run() {
-                call.cancel();
-            }
-        });
+
+        addCancelTask(() -> futureController.cancel());
     }
 
 }
