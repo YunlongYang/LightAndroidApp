@@ -1,13 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="online.heyworld.android.light.glance.plugin.PluginIntroActivity">
+
+    <EditText
+        android:id="@+id/plugin_url_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入插件地址:"/>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="加载插件"
-        android:onClick="loadPlugin"/>
-</android.support.constraint.ConstraintLayout>
+        android:text="下载插件"
+        android:onClick="downloadPlugin"/>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:max="100"
+        android:progress="80"
+        android:progressDrawable="@drawable/progress_red"
+        android:visibility="invisible"/>
+
+    <ListView
+        android:id="@+id/plugin_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </ListView>
+</LinearLayout>

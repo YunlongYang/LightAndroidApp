@@ -16,11 +16,12 @@ public class PluginLibraryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_plugin_library);
         container = findViewById(R.id.plugin_container);
         try {
-            PluginLibrary.install(this,"/sdcard/Android/plugin/online.heyworld.android.light.plugin.app/app.apk");
             View pView = PluginLibrary.loadView(this,"online.heyworld.android.light.plugin.app","online.heyworld.android.light.plugin.app.widget.PView");
-            container.addView(pView);
+            container.addView(pView,ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+
 }

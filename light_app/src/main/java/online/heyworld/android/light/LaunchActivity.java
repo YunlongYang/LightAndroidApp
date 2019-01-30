@@ -115,7 +115,7 @@ public class LaunchActivity extends BaseCompatActivity {
                                         final String data = jsonObject.getString("data");
                                         tipTv.setText(data);
                                     }
-                                } catch (JSONException e) {
+                                } catch (Exception e) {
                                     onError(e);
                                 }
                             }

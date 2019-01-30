@@ -12,9 +12,11 @@ import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
+import okhttp3.Response;
 import okhttp3.internal.Version;
 import okio.BufferedSink;
 import online.heyworld.android.light.library.app.context.ContextProvider;
+import online.heyworld.android.light.library.listener.net.ProgressListener;
 import online.heyworld.android.light.library.listener.net.ResponseListener;
 import online.heyworld.android.light.library.util.InternetUtil;
 import online.heyworld.android.light.library.util.SystemUtil;
@@ -24,23 +26,35 @@ public class OkHttpSession extends InternetUtil.Session {
     private static OkHttpClient sClient;
     private synchronized static OkHttpClient getClient(){
         if(sClient==null){
-            sClient = new OkHttpClient().newBuilder().addInterceptor(new Interceptor() {
-                @Override
-                public okhttp3.Response intercept(Chain chain) throws IOException {
+            sClient = new OkHttpClient().newBuilder()
+                    .addNetworkInterceptor((chain) -> {
+                        Response originalResponse = chain.proceed(chain.request());
+                        return originalResponse.newBuilder()
+                                .body(new ResponseBodyWithProgress(originalResponse.body()))
+                                .build();
+                    })
+                    .addInterceptor((chain)-> {
                     okhttp3.Request request = chain.request()
                             .newBuilder()
                             .addHeader("Accept-Language", SystemUtil.getLanguage(ContextProvider.get()))
                             .addHeader("User-Agent",Version.userAgent()+" "+SystemUtil.getUserAgent(ContextProvider.get()))
                             .build();
                     return chain.proceed(request);
-                }
-            }).build();
+                }).build();
         }
         return sClient;
     }
 
+    private ProgressListener progressListener = ProgressListener.NOP;
+
     public OkHttpSession(InternetUtil.Request request) {
         super(request);
+    }
+
+    @Override
+    public InternetUtil.Session listenOn(ProgressListener progressListener) {
+        this.progressListener = progressListener;
+        return this;
     }
 
     @Override
@@ -48,11 +62,18 @@ public class OkHttpSession extends InternetUtil.Session {
         return executeOkHttp(doRequest());
     }
 
-    private static InternetUtil.Response executeOkHttp(Call call)throws Exception{
+    private InternetUtil.Response executeOkHttp(Call call)throws Exception{
         okhttp3.Response okResp =  call.execute();
+        if(okResp.body() instanceof ResponseBodyWithProgress){
+            ((ResponseBodyWithProgress) okResp.body()).setProgressListener(progressListener);
+        }
         InternetUtil.Response response = new InternetUtil.Response(okResp.code(),
-                convert(okResp.headers().toMultimap()),
-                okResp.body().bytes());
+                convert(okResp.headers().toMultimap())){
+            @Override
+            public byte[] getBody()throws Exception {
+                return okResp.body().bytes();
+            }
+        };
         return response;
     }
 
@@ -137,4 +158,5 @@ public class OkHttpSession extends InternetUtil.Session {
         okhttp3.Request okReq = builder.build();
         return getClient().newCall(okReq);
     }
+
 }

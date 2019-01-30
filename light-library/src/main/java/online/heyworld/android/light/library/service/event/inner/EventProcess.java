@@ -6,4 +6,6 @@ package online.heyworld.android.light.library.service.event.inner;
 
 public interface EventProcess {
     void process(String action,String value);
+
+    void process(String action,Exception exception);
 }

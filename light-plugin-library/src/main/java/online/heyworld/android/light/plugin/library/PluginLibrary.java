@@ -29,22 +29,44 @@ public class PluginLibrary {
 
     public static void install(Context context,String apkPath)throws Exception{
         ApkHelper apkHelper = new ApkHelper(apkPath,context);
-        File runApkPath = new File(context.getFilesDir(),"/plugin/"+apkHelper.getPackageName()+"/"+apkHelper.getVersionName()+"/apk");
-        makeSureDirs(runApkPath);
+        File runApkPath = new File(context.getFilesDir(),"/plugin/runtime/"+apkHelper.getPackageName()+"-"+apkHelper.getVersionName()+".apk");
+        if(!runApkPath.getParentFile().exists()){
+            runApkPath.getParentFile().mkdirs();
+        }
         copy(new File(apkPath),runApkPath);
-        apkHelper = new ApkHelper(runApkPath.getAbsolutePath(),context);
-        apkPath = runApkPath.getAbsolutePath();
+        installByRunApk(runApkPath,context);
+    }
+
+    public static void init(Context context){
+        File runTimeDir = new File(context.getFilesDir(),"/plugin/runtime/");
+        if(runTimeDir.exists()){
+            for(File file : runTimeDir.listFiles()){
+                if(file.isFile()){
+                    installByRunApk(file,context);
+                }
+            }
+        }
+    }
+
+    private static void installByRunApk(File runApkPath,Context context){
+        makeSureDirs(runApkPath);
+        ApkHelper apkHelper = new ApkHelper(runApkPath.getAbsolutePath(),context);
+        String apkPath = runApkPath.getAbsolutePath();
         logger.info("---Start Install Plugin---");
+        logger.info("- path: {} -",runApkPath.getAbsolutePath());
         logger.info("- package:{} -",apkHelper.getPackageName());
         logger.info("- version:{} -",apkHelper.getVersion());
         logger.info("- versionName:{} -",apkHelper.getVersionName());
-
         PluginResourcesHelper pluginResourcesHelper = new PluginResourcesHelper(apkPath);
-        PluginClassLoaderHelper pluginClassLoaderHelper = new PluginClassLoaderHelper(apkPath);
+        PluginClassLoaderHelper pluginClassLoaderHelper = new PluginClassLoaderHelper(apkPath,apkHelper.getPackageName());
         sAppMap.put(apkHelper.getPackageName(),new PluginApp(apkPath,apkHelper,pluginResourcesHelper,pluginClassLoaderHelper));
     }
 
-    public static View loadView(Context context,String packageName,String viewClsName)throws Exception{
+    public static Map<String, PluginApp> getAppMap() {
+        return sAppMap;
+    }
+
+    public static View loadView(Context context, String packageName, String viewClsName)throws Exception{
         Class viewClass = sAppMap.get(packageName).pluginClassLoaderHelper.getClassLoader(context.getClassLoader()).loadClass(viewClsName);
         Constructor constructor = viewClass.getConstructor(Context.class);
         Context pContext = context;

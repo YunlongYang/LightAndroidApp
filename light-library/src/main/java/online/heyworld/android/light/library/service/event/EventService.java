@@ -18,4 +18,9 @@ public class EventService {
        logger.info("{}({})",action,value);
         sGroup.process(action, value);
     }
+
+    public static void exception(String action,Exception e){
+        logger.error(action,e);
+        sGroup.process(action, e);
+    }
 }

@@ -1,9 +1,11 @@
 package online.heyworld.android.light.library.util;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import online.heyworld.android.light.library.listener.net.ProgressListener;
 import online.heyworld.android.light.library.listener.net.ResponseListener;
 import online.heyworld.android.light.library.util.impl.internet.OkHttpSession;
 
@@ -66,20 +68,20 @@ public class InternetUtil {
             this.request = request;
         }
 
+        public abstract Session listenOn(ProgressListener progressListener);
+
         public abstract Response execute()throws Exception;
         public abstract FutureController executeAsyncForeground(ResponseListener responseListener);
         public abstract FutureController executeAsyncBackground(ResponseListener responseListener);
     }
 
-    public static class Response{
+    public abstract static class Response{
         private int code;
         private Map<String,String> headers;
-        private byte[] body;
 
-        public Response(int code, Map<String, String> headers, byte[] body) {
+        public Response(int code, Map<String, String> headers) {
             this.code = code;
             this.headers = headers;
-            this.body = body;
         }
 
         public int getCode() {
@@ -90,8 +92,14 @@ public class InternetUtil {
             return headers;
         }
 
-        public byte[] getBody() {
-            return body;
+        public abstract byte[] getBody()throws Exception;
+
+        @Override
+        public String toString() {
+            return "Response{" +
+                    "code=" + code +
+                    ", headers=" + headers +
+                    '}';
         }
     }
 

@@ -16,4 +16,11 @@ public class EventProcessGroup implements EventProcess {
             eventProcess.process(action, value);
         }
     }
+
+    @Override
+    public void process(String action, Exception exception) {
+        for(EventProcess eventProcess : eventProcesses){
+            eventProcess.process(action, exception);
+        }
+    }
 }

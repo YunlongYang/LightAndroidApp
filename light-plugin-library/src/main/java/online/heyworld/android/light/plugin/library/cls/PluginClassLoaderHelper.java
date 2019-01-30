@@ -10,14 +10,16 @@ import dalvik.system.DexClassLoader;
 
 public class PluginClassLoaderHelper {
     private final String apkPath;
+    private final String packageName;
 
-    public PluginClassLoaderHelper(String apkPath) {
+    public PluginClassLoaderHelper(String apkPath,String packageName) {
         this.apkPath = apkPath;
+        this.packageName = packageName;
     }
 
     public DexClassLoader getClassLoader(ClassLoader parent){
         File appFile = new File(apkPath);
-        File appWorkDir = appFile.getParentFile();
+        File appWorkDir = new File(appFile.getParentFile(),packageName);
         File optDir = new File(appWorkDir,"opt");
         if(!optDir.exists()){
             optDir.mkdirs();
