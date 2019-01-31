@@ -40,6 +40,7 @@ import online.heyworld.android.light.library.util.InternetUtil;
 import online.heyworld.android.light.library.util.LightPermissions;
 import online.heyworld.android.light.library.util.SystemUtil;
 import online.heyworld.android.light.plugin.ui.library.PluginLibraryActivity;
+import online.heyworld.android.light.route.AppRoute;
 
 public class LaunchActivity extends BaseCompatActivity {
 
@@ -54,7 +55,6 @@ public class LaunchActivity extends BaseCompatActivity {
         tipTv = findViewById(R.id.heyworld_tip);
         initAppEnv(this);
         init();
-
     }
 
     private void init() {
@@ -73,19 +73,7 @@ public class LaunchActivity extends BaseCompatActivity {
     }
 
     private void initAppEnv(Activity activity) {
-        ActivityRoute.register("/main", MainActivity.class);
-        ActivityRoute.register("/learn_context", LearnContextActivity.class);
-        ActivityRoute.register("/reference", ReferenceActivity.class);
-        ActivityRoute.register("/reference/web", ReferenceWebActivity.class);
-        ActivityRoute.register("/plugin", PluginIntroActivity.class);
-        ActivityRoute.register("/plugin/library", PluginLibraryActivity.class);
-        ActivityRoute.register("/game/block", BlockActivity.class);
-        ActivityRoute.register("/sort", MathOrderActivity.class);
-        ActivityRoute.register("/sort_list", MathOrderListActivity.class);
-        FlutterGuide flutterGuide = new FlutterGuide();
-        if (flutterGuide.isEnable()) {
-            ActivityRoute.register("/flutter", flutterGuide.getLaunchActivity());
-        }
+        AppRoute.installDefault();
     }
 
     @Override

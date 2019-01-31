@@ -1,5 +1,6 @@
 package online.heyworld.android.light.glance.math.order;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -17,20 +18,23 @@ import online.heyworld.android.light.R;
 import online.heyworld.android.light.library.app.activity.BaseCompatActivity;
 import online.heyworld.android.light.library.reflect.ClassUtil;
 import online.heyworld.android.light.library.route.ActivityRoute;
+import online.heyworld.android.light.library.util.ThreadUtils;
 import online.heyworld.android.light.widget.support.ListAdapter;
 
 public class MathOrderListActivity extends BaseCompatActivity {
 
     private GridView mOrderGroup;
-    private List<ClassUtil.ClassInfo> classInfoList;
+    private List<ClassUtil.ClassInfo> mClassInfoList;
+    private ListAdapter<ClassUtil.ClassInfo> mAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_math_order_list);
-        classInfoList = new ArrayList<>();
-        classInfoList.addAll(ClassUtil.getClasses(this,"online.heyworld.android.light.glance.math.order.impl",true));
+        mClassInfoList = new ArrayList<>();
+
+
         mOrderGroup = findViewById(R.id.content_group_view);
-        mOrderGroup.setAdapter(new ListAdapter<ClassUtil.ClassInfo>(classInfoList) {
+        mAdapter = new ListAdapter<ClassUtil.ClassInfo>(mClassInfoList) {
             @Override
             protected View createView() {
                return View.inflate(context(),R.layout.list_view_default_item,null);
@@ -53,14 +57,15 @@ public class MathOrderListActivity extends BaseCompatActivity {
                     return "未知";
                 }
             }
+        };
+        mOrderGroup.setAdapter(mAdapter);
+        mOrderGroup.setOnItemClickListener((parent, view, position, id) -> see(mClassInfoList.get(position)));
+        mOrderGroup.setEmptyView(findViewById(R.id.empty_view));
+        setTitle("排序算法列表");
+        ThreadUtils.postOnBackgroundThread(()->{
+            mClassInfoList.addAll(ClassUtil.getClasses(this,"online.heyworld.android.light.glance.math.order.impl",true));
+            ThreadUtils.postOnMainThread(()->mAdapter.notifyDataSetChanged());
         });
-        mOrderGroup.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                see(classInfoList.get(position));
-            }
-        });
-        setTitle("排序算法大全");
     }
 
 

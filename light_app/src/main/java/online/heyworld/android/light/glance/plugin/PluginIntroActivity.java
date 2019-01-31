@@ -81,7 +81,7 @@ public class PluginIntroActivity extends AppCompatActivity {
                     @Override
                     public void onProgress(long nowLength, long allLength) {
                         EventService.on("downloadPlugin","nowLength:"+nowLength+" allLength:"+allLength);
-                        runOnUiThread(()->mDownloadProgress.setProgress((int) (nowLength/1000),true));
+                        runOnUiThread(()->mDownloadProgress.setProgress((int) (nowLength/1000)));
                     }
                 }).executeAsyncBackground(new ResponseListener() {
             @Override

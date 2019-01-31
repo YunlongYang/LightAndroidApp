@@ -3,6 +3,7 @@ package online.heyworld.android.light.plugin.library.cls;
 import java.io.File;
 
 import dalvik.system.DexClassLoader;
+import online.heyworld.android.light.plugin.library.util.PluginAppPaths;
 
 /**
  * Created by admin on 2019/1/2.
@@ -19,7 +20,7 @@ public class PluginClassLoaderHelper {
 
     public DexClassLoader getClassLoader(ClassLoader parent){
         File appFile = new File(apkPath);
-        File appWorkDir = new File(appFile.getParentFile(),packageName);
+        File appWorkDir = PluginAppPaths.getRuntimeClassRootDir(appFile,packageName);
         File optDir = new File(appWorkDir,"opt");
         if(!optDir.exists()){
             optDir.mkdirs();

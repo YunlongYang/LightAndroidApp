@@ -18,6 +18,7 @@ import java.util.Map;
 import online.heyworld.android.light.plugin.library.cls.PluginClassLoaderHelper;
 import online.heyworld.android.light.plugin.library.res.PluginResourcesHelper;
 import online.heyworld.android.light.plugin.library.util.ApkHelper;
+import online.heyworld.android.light.plugin.library.util.PluginAppPaths;
 
 /**
  * Created by yunlong.yang on 2019/1/2.
@@ -29,10 +30,8 @@ public class PluginLibrary {
 
     public static void install(Context context,String apkPath)throws Exception{
         ApkHelper apkHelper = new ApkHelper(apkPath,context);
-        File runApkPath = new File(context.getFilesDir(),"/plugin/runtime/"+apkHelper.getPackageName()+"-"+apkHelper.getVersionName()+".apk");
-        if(!runApkPath.getParentFile().exists()){
-            runApkPath.getParentFile().mkdirs();
-        }
+        PluginAppPaths.clearPluginAppFiles(context,apkHelper.getPackageName());
+        File runApkPath = new File(PluginAppPaths.getRuntimeRootDir(context),apkHelper.getPackageName()+"-"+apkHelper.getVersionName()+".apk");
         copy(new File(apkPath),runApkPath);
         installByRunApk(runApkPath,context);
     }
@@ -95,7 +94,7 @@ public class PluginLibrary {
 
     }
 
-    private static class PluginApp{
+    public static class PluginApp{
         String apkPath;
         ApkHelper apkHelper;
         PluginResourcesHelper pluginResourcesHelper;
@@ -106,6 +105,22 @@ public class PluginLibrary {
             this.apkHelper = apkHelper;
             this.pluginResourcesHelper = pluginResourcesHelper;
             this.pluginClassLoaderHelper = pluginClassLoaderHelper;
+        }
+
+        public String getApkPath() {
+            return apkPath;
+        }
+
+        public ApkHelper getApkHelper() {
+            return apkHelper;
+        }
+
+        public PluginResourcesHelper getPluginResourcesHelper() {
+            return pluginResourcesHelper;
+        }
+
+        public PluginClassLoaderHelper getPluginClassLoaderHelper() {
+            return pluginClassLoaderHelper;
         }
     }
 }
