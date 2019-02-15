@@ -7,8 +7,8 @@ import android.graphics.Path;
 import android.graphics.Point;
 import android.view.View;
 
-import online.heyworld.android.light.glance.math.order.ISortAlgorithm;
-import online.heyworld.android.light.glance.math.order.util.SortDisplayUtil;
+import online.heyworld.android.light.core.page.math.order.ISortAlgorithm;
+import online.heyworld.android.light.core.page.math.order.util.SortDisplayUtil;
 
 public class ArrayDrawer {
     Canvas canvas;

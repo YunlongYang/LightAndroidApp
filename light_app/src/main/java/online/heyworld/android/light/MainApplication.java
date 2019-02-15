@@ -2,7 +2,8 @@ package online.heyworld.android.light;
 
 import android.app.Application;
 
-import online.heyworld.android.light.glance.flutter.FlutterGuide;
+import online.heyworld.android.light.core.page.flutter.FlutterGuide;
+import online.heyworld.android.light.core.service.ServiceRepo;
 import online.heyworld.android.light.library.app.context.ContextProvider;
 import online.heyworld.android.light.library.util.LogInitUtil;
 import online.heyworld.android.light.library.util.ThreadUtils;
@@ -14,6 +15,7 @@ public class MainApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        ServiceRepo.install(this);
         ContextProvider.install(this);
         LogInitUtil.initLog(this);
         ThreadUtils.postOnBackgroundThread(()->PluginLibrary.init(this));
@@ -25,5 +27,9 @@ public class MainApplication extends Application {
         }
     }
 
-
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        ServiceRepo.exit();
+    }
 }

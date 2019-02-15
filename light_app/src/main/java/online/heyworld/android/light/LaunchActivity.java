@@ -2,44 +2,24 @@ package online.heyworld.android.light;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.RequestBuilder;
-
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.Arrays;
 
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import online.heyworld.android.light.glance.block.BlockActivity;
-import online.heyworld.android.light.glance.context.LearnContextActivity;
-import online.heyworld.android.light.glance.flutter.FlutterGuide;
-import online.heyworld.android.light.glance.math.order.MathOrderActivity;
-import online.heyworld.android.light.glance.math.order.MathOrderListActivity;
-import online.heyworld.android.light.glance.plugin.PluginIntroActivity;
+import online.heyworld.android.light.core.service.ServiceRepo;
+import online.heyworld.android.light.core.service.SolicitudeService;
 import online.heyworld.android.light.library.app.activity.BaseCompatActivity;
-import online.heyworld.android.light.library.app.activity.ReferenceActivity;
-import online.heyworld.android.light.library.app.activity.ReferenceWebActivity;
 import online.heyworld.android.light.library.listener.net.ResponseListener;
 import online.heyworld.android.light.library.route.ActivityRoute;
 import online.heyworld.android.light.library.util.InternetUtil;
 import online.heyworld.android.light.library.util.LightPermissions;
-import online.heyworld.android.light.library.util.SystemUtil;
-import online.heyworld.android.light.plugin.ui.library.PluginLibraryActivity;
 import online.heyworld.android.light.route.AppRoute;
 
 public class LaunchActivity extends BaseCompatActivity {
@@ -93,8 +73,7 @@ public class LaunchActivity extends BaseCompatActivity {
     private void getWelcomeTip() {
 
         InternetUtil.FutureController futureController =
-                InternetUtil.get("https://heyworld.online/welcome")
-                        .executeAsyncForeground(new ResponseListener() {
+                ServiceRepo.get(SolicitudeService.class).requestTopTip(new ResponseListener() {
                             @Override
                             public void onResponse(InternetUtil.Response response) {
                                 try {

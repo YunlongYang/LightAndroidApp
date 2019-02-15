@@ -10,6 +10,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import online.heyworld.android.light.library.app.ui.ActivityUiHelper;
+
 /**
  * Created by admin on 2018/12/27.
  */
@@ -18,10 +20,12 @@ public class BaseCompatActivity extends AppCompatActivity {
 
     protected Handler mHandler;
     protected List<Runnable> mCancelTaskList;
+    protected ActivityUiHelper activityUiHelper;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mHandler = new Handler();
+        activityUiHelper = new ActivityUiHelper(this,mHandler);
         mCancelTaskList = new ArrayList<>();
     }
 

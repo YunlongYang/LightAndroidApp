@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="online.heyworld.android.light.glance.block.BlockActivity">
-    <online.heyworld.android.light.glance.block.widget.BlockView
+    tools:context=".core.page.block.BlockActivity">
+    <online.heyworld.android.light.core.page.block.widget.BlockView
         android:id="@+id/block_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

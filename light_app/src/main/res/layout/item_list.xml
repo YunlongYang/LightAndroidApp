@@ -9,5 +9,5 @@
     android:paddingStart="16dp"
     android:paddingEnd="16dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context="online.heyworld.android.light.glance.plugin.PluginIntroActivity"
+    tools:context=".core.page.plugin.PluginIntroActivity"
     tools:listitem="@layout/item_list_content" />

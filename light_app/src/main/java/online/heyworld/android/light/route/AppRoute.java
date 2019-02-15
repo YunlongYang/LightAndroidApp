@@ -1,12 +1,12 @@
 package online.heyworld.android.light.route;
 
 import online.heyworld.android.light.MainActivity;
-import online.heyworld.android.light.glance.block.BlockActivity;
-import online.heyworld.android.light.glance.context.LearnContextActivity;
-import online.heyworld.android.light.glance.flutter.FlutterGuide;
-import online.heyworld.android.light.glance.math.order.MathOrderActivity;
-import online.heyworld.android.light.glance.math.order.MathOrderListActivity;
-import online.heyworld.android.light.glance.plugin.PluginIntroActivity;
+import online.heyworld.android.light.core.page.block.BlockActivity;
+import online.heyworld.android.light.core.page.context.LearnContextActivity;
+import online.heyworld.android.light.core.page.flutter.FlutterGuide;
+import online.heyworld.android.light.core.page.math.order.MathOrderActivity;
+import online.heyworld.android.light.core.page.math.order.MathOrderListActivity;
+import online.heyworld.android.light.core.page.plugin.PluginIntroActivity;
 import online.heyworld.android.light.library.app.activity.ReferenceActivity;
 import online.heyworld.android.light.library.app.activity.ReferenceWebActivity;
 import online.heyworld.android.light.library.route.ActivityRoute;

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="online.heyworld.android.light.glance.plugin.PluginIntroActivity">
+    tools:context=".core.page.plugin.PluginIntroActivity">
 
     <EditText
         android:id="@+id/plugin_url_et"

@@ -3,7 +3,7 @@ apply from:rootProject.file("gradle_script/common_library_build.gradle").absolut
 dependencies {
     implementation 'com.android.support:design:' + ANDROID_SUPPORT_VERSION
 //    implementation project(":light-flutter-library")
-    api 'com.github.yunlongyang:lightandroid:v1.0.2'
+    api 'com.github.yunlongyang:lightandroid:1.0.2'
     api 'com.airbnb.android:lottie:1.0.1'
     api 'com.zzhoujay.richtext:richtext:3.0.7'
     api project(":light-plugin-ui-library")

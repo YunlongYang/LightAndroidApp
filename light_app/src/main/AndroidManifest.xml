@@ -33,12 +33,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".glance.context.LearnContextActivity"
+            android:name=".core.page.context.LearnContextActivity"
             android:label="Learn Context" />
-        <activity android:name=".glance.plugin.PluginIntroActivity" />
-        <activity android:name=".glance.block.BlockActivity" />
-        <activity android:name=".glance.math.order.MathOrderActivity" />
-        <activity android:name=".glance.math.order.MathOrderListActivity"></activity>
+        <activity android:name=".core.page.plugin.PluginIntroActivity" />
+        <activity android:name=".core.page.block.BlockActivity" />
+        <activity android:name=".core.page.math.order.MathOrderActivity" />
+        <activity android:name=".core.page.math.order.MathOrderListActivity"></activity>
     </application>
 
 </manifest>
