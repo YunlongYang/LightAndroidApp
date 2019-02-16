@@ -13,8 +13,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 
-import online.heyworld.android.light.core.service.ServiceRepo;
-import online.heyworld.android.light.core.service.SolicitudeService;
+import online.heyworld.android.light.core.app.service.ServiceRepo;
+import online.heyworld.android.light.core.app.service.SolicitudeService;
 import online.heyworld.android.light.library.app.activity.BaseCompatActivity;
 import online.heyworld.android.light.library.listener.net.ResponseListener;
 import online.heyworld.android.light.library.route.ActivityRoute;

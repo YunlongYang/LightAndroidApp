@@ -96,4 +96,8 @@ public class LightPermissions {
     public static PermissionSession setUp(Activity activity,List<String> permissions) {
         return new PermissionSession(activity,permissions);
     }
+
+    public static boolean has(Activity activity,String permission){
+        return ContextCompat.checkSelfPermission(activity,permission) == PackageManager.PERMISSION_GRANTED;
+    }
 }

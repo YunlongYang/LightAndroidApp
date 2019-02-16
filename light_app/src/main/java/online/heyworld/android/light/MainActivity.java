@@ -1,23 +1,38 @@
 package online.heyworld.android.light;
 
+import android.Manifest;
+import android.app.ActivityManager;
+import android.app.usage.UsageStats;
+import android.app.usage.UsageStatsManager;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.provider.Settings;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
-import java.time.Duration;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
+import com.google.common.collect.Lists;
+
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import online.heyworld.android.light.core.page.flutter.FlutterGuide;
-import online.heyworld.android.light.core.service.ServiceRepo;
-import online.heyworld.android.light.core.service.SolicitudeService;
+import online.heyworld.android.light.core.app.service.ServiceRepo;
+import online.heyworld.android.light.core.app.service.SolicitudeService;
 import online.heyworld.android.light.core.util.time.DuringUtils;
 import online.heyworld.android.light.library.app.activity.BaseCompatActivity;
 import online.heyworld.android.light.library.app.ui.ActivityUiHelper;
-import online.heyworld.android.light.library.listener.ArgListener;
 import online.heyworld.android.light.library.route.ActivityRoute;
+import online.heyworld.android.light.library.util.LightPermissions;
 
 public class MainActivity extends BaseCompatActivity {
 

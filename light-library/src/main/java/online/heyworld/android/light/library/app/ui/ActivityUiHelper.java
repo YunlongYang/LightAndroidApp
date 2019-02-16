@@ -19,10 +19,12 @@ public class ActivityUiHelper {
     public void tip(int place, String info, long during){
         switch (place){
             case PLACE_TITLE:
-                handler.postDelayed(()->activity.setTitle(title),during);
+                handler.removeCallbacks(recoverTask);
+                handler.postDelayed(recoverTask,during);
                 activity.setTitle(info);
                 break;
         }
-
     }
+
+    private Runnable recoverTask = ()->activity.setTitle(title);
 }
