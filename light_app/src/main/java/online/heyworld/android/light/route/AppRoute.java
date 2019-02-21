@@ -7,6 +7,7 @@ import online.heyworld.android.light.core.page.flutter.FlutterGuide;
 import online.heyworld.android.light.core.page.math.order.MathOrderActivity;
 import online.heyworld.android.light.core.page.math.order.MathOrderListActivity;
 import online.heyworld.android.light.core.page.plugin.PluginIntroActivity;
+import online.heyworld.android.light.core.page.web.WebViewActivity;
 import online.heyworld.android.light.library.app.activity.ReferenceActivity;
 import online.heyworld.android.light.library.app.activity.ReferenceWebActivity;
 import online.heyworld.android.light.library.route.ActivityRoute;
@@ -23,6 +24,7 @@ public class AppRoute {
         ActivityRoute.register("/plugin/library", PluginLibraryActivity.class);
         ActivityRoute.register("/game/block", BlockActivity.class);
         ActivityRoute.register("/sort", MathOrderActivity.class);
+        ActivityRoute.register("/web", WebViewActivity.class);
         ActivityRoute.register("/sort_list", MathOrderListActivity.class);
         FlutterGuide flutterGuide = new FlutterGuide();
         if (flutterGuide.isEnable()) {

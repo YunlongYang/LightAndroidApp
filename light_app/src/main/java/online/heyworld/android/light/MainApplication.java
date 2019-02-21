@@ -4,6 +4,7 @@ import android.app.Application;
 
 import online.heyworld.android.light.core.page.flutter.FlutterGuide;
 import online.heyworld.android.light.core.app.service.ServiceRepo;
+import online.heyworld.android.light.core.tech.ssh.SSH;
 import online.heyworld.android.light.library.app.context.ContextProvider;
 import online.heyworld.android.light.library.util.LogInitUtil;
 import online.heyworld.android.light.library.util.ThreadUtils;
@@ -27,6 +28,7 @@ public class MainApplication extends Application {
         }
         ActivitySets.init(this);
         ServiceSets.init(this);
+        SSH.startServer();
     }
 
     @Override

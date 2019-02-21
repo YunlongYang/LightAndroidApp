@@ -38,10 +38,11 @@
         <activity android:name=".core.page.plugin.PluginIntroActivity" />
         <activity android:name=".core.page.block.BlockActivity" />
         <activity android:name=".core.page.math.order.MathOrderActivity" />
-        <activity android:name=".core.page.math.order.MathOrderListActivity"></activity>
+        <activity android:name=".core.page.math.order.MathOrderListActivity" />
 
-        <service android:name=".core.service.UserPhoneService">
-        </service>
+        <service android:name=".core.service.UserPhoneService"></service>
+
+        <activity android:name=".core.page.web.WebViewActivity"></activity>
     </application>
 
 </manifest>

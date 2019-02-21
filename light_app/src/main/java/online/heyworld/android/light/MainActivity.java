@@ -99,4 +99,8 @@ public class MainActivity extends BaseCompatActivity {
     public void onBackPressed() {
         moveTaskToBack(true);
     }
+
+    public void openWebView(View view) {
+        ActivityRoute.of(this).go("/web");
+    }
 }
