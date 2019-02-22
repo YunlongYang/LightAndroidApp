@@ -34,11 +34,22 @@ public class WebViewActivity extends BaseCompatActivity {
         }else{
             mWebView.loadUrl(getIntent().getDataString());
         }
+
+
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         WebViewUtil.destroy(mWebView);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(mWebView.canGoBack()){
+            mWebView.goBack();
+        }else{
+            finish();
+        }
     }
 }

@@ -102,7 +102,7 @@ public class MainActivity extends BaseCompatActivity {
     }
 
     public void openWebView(View view) {
-        ActivityRoute.of(this).go("/web",Collections.singletonMap(Operator.ARG_KEY_DATA,"https://github.com"));
+        ActivityRoute.of(this).go("/web",Collections.singletonMap(Operator.ARG_KEY_DATA,"https://github.com/login"));
 //        ActivityRoute.of(this).go("/web",Collections.singletonMap(Operator.ARG_KEY_DATA,"https://html5test.com/"));
     }
 }
