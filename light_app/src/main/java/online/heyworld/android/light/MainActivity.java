@@ -32,6 +32,7 @@ import online.heyworld.android.light.core.util.time.DuringUtils;
 import online.heyworld.android.light.library.app.activity.BaseCompatActivity;
 import online.heyworld.android.light.library.app.ui.ActivityUiHelper;
 import online.heyworld.android.light.library.route.ActivityRoute;
+import online.heyworld.android.light.library.route.Operator;
 import online.heyworld.android.light.library.util.LightPermissions;
 
 public class MainActivity extends BaseCompatActivity {
@@ -101,6 +102,7 @@ public class MainActivity extends BaseCompatActivity {
     }
 
     public void openWebView(View view) {
-        ActivityRoute.of(this).go("/web");
+        ActivityRoute.of(this).go("/web",Collections.singletonMap(Operator.ARG_KEY_DATA,"https://github.com"));
+//        ActivityRoute.of(this).go("/web",Collections.singletonMap(Operator.ARG_KEY_DATA,"https://html5test.com/"));
     }
 }

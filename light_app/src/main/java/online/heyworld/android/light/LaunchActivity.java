@@ -2,8 +2,10 @@ package online.heyworld.android.light;
 
 import android.Manifest;
 import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,7 +17,10 @@ import java.util.Arrays;
 
 import online.heyworld.android.light.core.app.service.ServiceRepo;
 import online.heyworld.android.light.core.app.service.SolicitudeService;
+import online.heyworld.android.light.core.service.UserPhoneService;
+import online.heyworld.android.light.core.tech.job.JobInterface;
 import online.heyworld.android.light.library.app.activity.BaseCompatActivity;
+import online.heyworld.android.light.library.app.ui.ActivityUiHelper;
 import online.heyworld.android.light.library.listener.net.ResponseListener;
 import online.heyworld.android.light.library.route.ActivityRoute;
 import online.heyworld.android.light.library.util.InternetUtil;
@@ -28,6 +33,7 @@ public class LaunchActivity extends BaseCompatActivity {
     private LightPermissions.PermissionSession session;
     private static Logger logger = LoggerFactory.getLogger(LaunchActivity.class);
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +46,7 @@ public class LaunchActivity extends BaseCompatActivity {
     private void init() {
         String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE, Manifest.permission.ACCESS_FINE_LOCATION};
         session = LightPermissions.setUp(this, Arrays.asList(permissions));
-        session.onDeny(() -> showToast("应用运行需要以下权限", Toast.LENGTH_SHORT)).onGrant(() -> {
+        session.onDeny(() -> activityUiHelper.tip(ActivityUiHelper.PLACE_TOAST,"应用运行需要以下权限", Toast.LENGTH_SHORT)).onGrant(() -> {
             getWelcomeTip();
             postDelayed(() -> {
                 ActivityRoute.of(LaunchActivity.this).go("/main");
@@ -52,8 +58,10 @@ public class LaunchActivity extends BaseCompatActivity {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void initAppEnv(Activity activity) {
         AppRoute.installDefault();
+        JobInterface.startJob(getApplicationContext(),UserPhoneService.class);
     }
 
     @Override

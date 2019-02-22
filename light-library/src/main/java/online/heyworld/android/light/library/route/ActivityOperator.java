@@ -2,6 +2,7 @@ package online.heyworld.android.light.library.route;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 
 import java.util.Collections;
 import java.util.Map;
@@ -31,7 +32,11 @@ public class ActivityOperator implements Operator {
         if(targetClass!=null) {
             Intent intent = new Intent(activity, targetClass);
             for (Map.Entry<String, Object> entry : args.entrySet()) {
-                intent.putExtra(entry.getKey(), String.valueOf(entry.getValue()));
+                if(ARG_KEY_DATA.equals(entry.getKey())){
+                    intent.setData(Uri.parse((String) entry.getValue()));
+                }else {
+                    intent.putExtra(entry.getKey(), String.valueOf(entry.getValue()));
+                }
             }
             activity.startActivity(intent);
         }else{

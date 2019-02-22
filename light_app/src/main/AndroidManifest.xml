@@ -40,7 +40,10 @@
         <activity android:name=".core.page.math.order.MathOrderActivity" />
         <activity android:name=".core.page.math.order.MathOrderListActivity" />
 
-        <service android:name=".core.service.UserPhoneService"></service>
+        <service android:name=".core.service.UserPhoneService"
+            android:permission="android.permission.BIND_JOB_SERVICE">
+
+        </service>
 
         <activity android:name=".core.page.web.WebViewActivity"></activity>
     </application>

@@ -29,10 +29,6 @@ public class BaseCompatActivity extends AppCompatActivity {
         mCancelTaskList = new ArrayList<>();
     }
 
-    protected void showToast(String text,int duration){
-        Toast.makeText(this,text,duration).show();
-    }
-
     protected boolean post(Runnable r) {
         return mHandler.post(r);
     }

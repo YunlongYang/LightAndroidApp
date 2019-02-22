@@ -17,19 +17,28 @@ public class SolicitudeService extends BaseService {
     public interface Key{
         String USER_PHONE_SOLICITUDE = "USER_PHONE_SOLICITUDE";
 
+        String USER_PHONE_SOLICITUDE_DATE = "USER_PHONE_SOLICITUDE_DATE";
+
         String LAST_OPEN_TIME = "LAST_OPEN_TIME";
 
         String LAST_DURING = "LAST_DURING";
     }
 
+    public interface TimeValue{
+        long UNSET = 0;
+    }
+
+    private UserPhoneReceiver userPhoneReceiver;
+
     @Override
     public void init() {
-        initData();
+        userPhoneReceiver = new UserPhoneReceiver();
+        userPhoneReceiver.initData(context);
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_SCREEN_ON);
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         filter.addAction(Intent.ACTION_USER_PRESENT);
-        context.registerReceiver(new UserPhoneReceiver(),filter);
+        context.registerReceiver(userPhoneReceiver,filter);
     }
 
     public InternetUtil.FutureController requestTopTip(ResponseListener responseListener){
@@ -50,25 +59,7 @@ public class SolicitudeService extends BaseService {
         });
     }
 
-    private void initData(){
-        final DataBaseService dataBaseService = ServiceRepo.get(DataBaseService.class);
-        dataBaseService.query(jsonObject -> {
-            JSONObject USER_PHONE_SOLICITUDE = jsonObject.getJSONObject(SolicitudeService.Key.USER_PHONE_SOLICITUDE);
-            boolean changed = false;
-            if(USER_PHONE_SOLICITUDE==null){
-                USER_PHONE_SOLICITUDE = new JSONObject();
-                USER_PHONE_SOLICITUDE.put(SolicitudeService.Key.LAST_DURING,0);
-                USER_PHONE_SOLICITUDE.put(SolicitudeService.Key.LAST_OPEN_TIME,System.currentTimeMillis());
-                changed = true;
-            }else{
-                if(USER_PHONE_SOLICITUDE.getLongValue(SolicitudeService.Key.LAST_OPEN_TIME)<=0){
-                    USER_PHONE_SOLICITUDE.put(SolicitudeService.Key.LAST_OPEN_TIME,System.currentTimeMillis());
-                    changed = true;
-                }
-            }
-            if(changed){
-                dataBaseService.recordWhenQuery(jsonObject,SolicitudeService.Key.USER_PHONE_SOLICITUDE,USER_PHONE_SOLICITUDE);
-            }
-        });
+    public UserPhoneReceiver getUserPhoneReceiver() {
+        return userPhoneReceiver;
     }
 }
