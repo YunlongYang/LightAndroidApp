@@ -4,6 +4,7 @@ import online.heyworld.android.light.MainActivity;
 import online.heyworld.android.light.core.page.block.BlockActivity;
 import online.heyworld.android.light.core.page.context.LearnContextActivity;
 import online.heyworld.android.light.core.page.flutter.FlutterGuide;
+import online.heyworld.android.light.core.page.main.programmer.ProgrammerMainActivity;
 import online.heyworld.android.light.core.page.math.order.MathOrderActivity;
 import online.heyworld.android.light.core.page.math.order.MathOrderListActivity;
 import online.heyworld.android.light.core.page.plugin.PluginIntroActivity;
@@ -16,7 +17,8 @@ import online.heyworld.android.light.plugin.ui.library.PluginLibraryActivity;
 public class AppRoute {
 
     public static void installDefault() {
-        ActivityRoute.register("/main", MainActivity.class);
+        ActivityRoute.register("/main", ProgrammerMainActivity.class);
+        ActivityRoute.register("/main/index", MainActivity.class);
         ActivityRoute.register("/learn_context", LearnContextActivity.class);
         ActivityRoute.register("/reference", ReferenceActivity.class);
         ActivityRoute.register("/reference/web", ReferenceWebActivity.class);

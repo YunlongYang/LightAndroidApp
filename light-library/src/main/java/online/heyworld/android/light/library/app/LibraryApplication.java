@@ -13,7 +13,7 @@ public class LibraryApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        androidApplicationLike = new LightAndroidApplicationLike();
+        androidApplicationLike = new LightAndroidApplicationLike.Builder().setLeakCanaryEnable(true).build();
         androidApplicationLike.onCreate(this);
     }
 }

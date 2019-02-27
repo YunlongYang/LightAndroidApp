@@ -10,6 +10,9 @@ import android.widget.TextView;
 
 import com.google.common.io.Files;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,7 +24,6 @@ import online.heyworld.android.light.R;
 import online.heyworld.android.light.library.listener.net.ProgressListener;
 import online.heyworld.android.light.library.listener.net.ResponseListener;
 import online.heyworld.android.light.library.route.ActivityRoute;
-import online.heyworld.android.light.library.service.event.EventService;
 import online.heyworld.android.light.library.util.InternetUtil;
 import online.heyworld.android.light.library.util.ThreadUtils;
 import online.heyworld.android.light.plugin.library.PluginLibrary;
@@ -34,6 +36,7 @@ public class PluginIntroActivity extends AppCompatActivity {
     private List<String> dataList;
     private EditText mPluginUrlEt;
     private ProgressBar mDownloadProgress;
+    private static final Logger logger = LoggerFactory.getLogger("Plugin");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +83,7 @@ public class PluginIntroActivity extends AppCompatActivity {
 
                     @Override
                     public void onProgress(long nowLength, long allLength) {
-                        EventService.on("downloadPlugin","nowLength:"+nowLength+" allLength:"+allLength);
+                        logger.info("downloadPlugin","nowLength:"+nowLength+" allLength:"+allLength);
                         runOnUiThread(()->mDownloadProgress.setProgress((int) (nowLength/1000)));
                     }
                 }).executeAsyncBackground(new ResponseListener() {
@@ -105,7 +108,7 @@ public class PluginIntroActivity extends AppCompatActivity {
                         });
                     }
                 }else{
-                    EventService.on("downloadPlugin","error:"+response);
+                    logger.info("downloadPlugin","error:"+response);
                 }
             }
 

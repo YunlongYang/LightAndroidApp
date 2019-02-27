@@ -8,7 +8,8 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"
+    <uses-permission
+        android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
 
     <application
@@ -42,12 +43,14 @@
         <activity android:name=".core.page.math.order.MathOrderActivity" />
         <activity android:name=".core.page.math.order.MathOrderListActivity" />
 
-        <service android:name=".core.service.UserPhoneService"
-            android:permission="android.permission.BIND_JOB_SERVICE">
+        <service
+            android:name=".core.service.UserPhoneService"
+            android:permission="android.permission.BIND_JOB_SERVICE"></service>
 
-        </service>
-
-        <activity android:name=".core.page.web.WebViewActivity"></activity>
+        <activity android:name=".core.page.web.WebViewActivity" />
+        <activity
+            android:name=".core.page.main.programmer.ProgrammerMainActivity"
+            android:label="@string/title_activity_programmer_main"></activity>
     </application>
 
 </manifest>

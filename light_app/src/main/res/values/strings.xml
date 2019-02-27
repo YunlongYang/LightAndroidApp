@@ -13,4 +13,5 @@
     <string name="title_item_list">Items</string>
     <string name="title_item_detail">Item Detail</string>
     <string name="with_flutter">Compare Flutter</string>
+    <string name="title_activity_programmer_main">ProgrammerMainActivity</string>
 </resources>
