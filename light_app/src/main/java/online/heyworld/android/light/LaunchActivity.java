@@ -24,8 +24,8 @@ import online.heyworld.android.light.library.app.ui.ActivityUiHelper;
 import online.heyworld.android.light.library.listener.net.ResponseListener;
 import online.heyworld.android.light.library.route.ActivityRoute;
 import online.heyworld.android.light.library.util.InternetUtil;
-import online.heyworld.android.light.library.util.LightPermissions;
 import online.heyworld.android.light.route.AppRoute;
+import online.heyworld.lightandroid.feature.LightPermissions;
 
 public class LaunchActivity extends BaseCompatActivity {
 
@@ -44,7 +44,7 @@ public class LaunchActivity extends BaseCompatActivity {
     }
 
     private void init() {
-        String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE, Manifest.permission.ACCESS_FINE_LOCATION};
+        String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_SETTINGS};
         session = LightPermissions.setUp(this, Arrays.asList(permissions));
         session.onDeny(() -> activityUiHelper.tip(ActivityUiHelper.PLACE_TOAST,"应用运行需要以下权限", Toast.LENGTH_SHORT)).onGrant(() -> {
             getWelcomeTip();

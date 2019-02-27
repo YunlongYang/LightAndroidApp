@@ -72,4 +72,5 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:' + ANDROID_SUPPORT_VERSION
     implementation 'com.android.support:design:' + ANDROID_SUPPORT_VERSION
     implementation 'com.alibaba:fastjson:1.1.70.android'
+//    implementation 'com.afollestad.material-dialogs:core:2.0.3'
 }

@@ -1,6 +1,8 @@
 package online.heyworld.android.light;
 
 import android.app.Application;
+import android.provider.Settings;
+import android.util.Log;
 
 import online.heyworld.android.light.core.page.flutter.FlutterGuide;
 import online.heyworld.android.light.core.app.service.ServiceRepo;
@@ -20,8 +22,10 @@ public class MainApplication extends Application {
         ContextProvider.install(this);
         LogInitUtil.initLog(this);
         ThreadUtils.postOnBackgroundThread(()->PluginLibrary.init(this));
-        lightAndroidApplicationLike = new LightAndroidApplicationLike();
+        lightAndroidApplicationLike = new LightAndroidApplicationLike.Builder().setLeakCanaryEnable(false).build();
         lightAndroidApplicationLike.onCreate(this);
+        Log.i("HTTP_PROXY",String.valueOf(Settings.System.getString(getContentResolver(),
+                Settings.System.HTTP_PROXY)));
         FlutterGuide flutterGuide = new FlutterGuide();
         if(flutterGuide.isEnable()){
             flutterGuide.init(this);

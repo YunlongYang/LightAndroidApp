@@ -3,15 +3,15 @@ apply from:rootProject.file("gradle_script/common_library_build.gradle").absolut
 dependencies {
     implementation 'com.android.support:design:' + ANDROID_SUPPORT_VERSION
 //    implementation project(":light-flutter-library")
-    api 'com.github.yunlongyang:lightandroid:1.0.2'
+    api 'com.github.yunlongyang:lightandroid:1.0.3'
     api 'com.airbnb.android:lottie:1.0.1'
     api 'com.zzhoujay.richtext:richtext:3.0.7'
     api project(":light-plugin-ui-library")
     api group: 'com.google.guava', name: 'guava', version: '27.0.1-android'
     implementation 'com.squareup.okhttp3:okhttp:3.8.0'
 
-    debugImplementation "com.squareup.leakcanary:leakcanary-android:$LeakCanaryVersion"
-    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$LeakCanaryVersion"
+//    debugImplementation "com.squareup.leakcanary:leakcanary-android:$LeakCanaryVersion"
+//    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$LeakCanaryVersion"
 }
 
 android {
